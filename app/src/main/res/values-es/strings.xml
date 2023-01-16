@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Proyecto generico</string>
+    <!-- String related with Home Login -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_tv_text">¡Te damos la bienvenidos a Mercado Pago!</string>
+    <string name="login_bt_login">Iniciar sesión</string>
+    <string name="login_bt_create">Crear cuenta nueva</string>
+    <!-- String related with Login -->
+    <string name="login_tv_enter_phone">Ingresa teléfono, e-mail o usuario</string>
+    <string name="login_tv_text_phone_2">Teléfono, e-mail o usuario</string>
+    <string name="login_bt_continue">Continuar</string>
+    <string name="login_tv_help">Necesito ayuda para ingresar</string>
+    <string name="login_tv_privacy">How we take care of your privacy</string>
+    <string name="login_tv_copyright">copyright 1999-2023 MercadoLibre S.R.L</string>
+    <string name="login_tv_report">Reportar un problema</string>
+    <string name="login_tv_stolen_phone">Robo o perdida de teléfono</string>
+    <!-- String related with Create -->
+</resources>

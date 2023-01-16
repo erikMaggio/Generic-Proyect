@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">Generic Proyect</string>
-    <!-- TODO: STRING HOME LOGIN -->
+    <!-- String related with Home Login -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_tv_text">¡We welcome you to Mercado Pago!</string>
     <string name="login_bt_login">Login</string>
-    <string name="login_bt_create">Create new account</string>
-    <!-- TODO: STRING LOGIN -->
-    <string name="login_tv_enter_phone">Enter phone, email or username</string>
+    <string name="login_bt_create" translatable="false">Create new account</string>
+    <!-- String related with Login -->
+    <string name="login_tv_enter_phone" translatable="false">Enter phone, email or username</string>
     <string name="login_tv_text_phone_2">Phone, email or username</string>
     <string name="login_bt_continue">Continue</string>
     <string name="login_tv_help">I need help to enter</string>
     <string name="login_tv_privacy">How we take care of your privacy</string>
-    <string name="login_tv_copyright">copyright 1999-2023 MercadoLibre S.R.L</string>
+    <string name="login_tv_copyright">copyright 1999-2023 <b>MercadoLibre S.R.L</b></string>
     <string name="login_tv_report">Report a problem</string>
     <string name="login_tv_stolen_phone">Stolen or lost phone</string>
-    <!-- TODO: STRING TERM_AND_CONDITIONS -->
+    <!-- String related with Create -->
 
 
 </resources>
