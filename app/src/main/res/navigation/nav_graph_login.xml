@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeLoginFragment"
-        android:name="com.example.genericproyect.HomeLoginFragment"
+        android:name="com.example.genericproyect.ui.fragment.HomeLoginFragment"
         android:label="fragment_home_login"
-        tools:layout="@layout/fragment_home_login" >
+        tools:layout="@layout/fragment_home_login">
         <action
             android:id="@+id/action_homeLoginFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -19,9 +19,9 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.genericproyect.LoginFragment"
+        android:name="com.example.genericproyect.ui.fragment.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -34,23 +34,23 @@
     </fragment>
     <fragment
         android:id="@+id/termsAndConditionsFragment"
-        android:name="com.example.genericproyect.termsAndConditionsFragment"
+        android:name="com.example.genericproyect.ui.fragment.TermsAndConditionsFragment"
         android:label="fragment_terms_and_conditions"
-        tools:layout="@layout/fragment_terms_and_conditions" >
+        tools:layout="@layout/fragment_terms_and_conditions">
         <action
             android:id="@+id/action_termsAndConditionsFragment_to_homeLoginFragment"
             app:destination="@id/homeLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.genericproyect.HomeFragment"
+        android:name="com.example.genericproyect.ui.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/helpFragment"
-        android:name="com.example.genericproyect.HelpFragment"
+        android:name="com.example.genericproyect.ui.fragment.HelpFragment"
         android:label="fragment_help"
-        tools:layout="@layout/fragment_help" >
+        tools:layout="@layout/fragment_help">
         <action
             android:id="@+id/action_helpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

@@ -15,6 +15,7 @@ class LoginViewModel : ViewModel() {
             && !login.contains(",")
             && !login.contains(":")
             && !login.contains(";")
+            && login.length >= 3
         ) {
             liveCheckLoginData.postValue(true)
         } else {

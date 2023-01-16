@@ -1,4 +1,4 @@
-package com.example.genericproyect
+package com.example.genericproyect.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.genericproyect.R
 import com.example.genericproyect.databinding.FragmentLoginBinding
 import com.example.genericproyect.viewmodel.LoginViewModel
 
