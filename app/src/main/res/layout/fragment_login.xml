@@ -47,12 +47,15 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_text" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/et_user"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="12dp"
             android:background="@drawable/border_black"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
+            android:maxLength="25"
+            
+            android:maxLines="1"
             android:paddingStart="8dp"
             android:textAlignment="textStart"
             android:textSize="18sp"
@@ -68,12 +71,13 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/border_radius"
+            android:enabled="false"
             android:text="@string/login_bt_continue"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/et_user" />
 
         <TextView
             android:id="@+id/tv_help"
