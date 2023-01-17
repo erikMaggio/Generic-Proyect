@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.genericproyect.R
+import com.example.genericproyect.databinding.CreateAccountFragmentBinding
 
 
 class CreateAccountFragment : Fragment() {
 
+    private lateinit var binding: CreateAccountFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.create_account_fragment, container, false)
+        binding = CreateAccountFragmentBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
 }
