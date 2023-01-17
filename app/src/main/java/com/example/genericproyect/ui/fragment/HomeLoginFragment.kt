@@ -10,13 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.genericproyect.R
 import com.example.genericproyect.databinding.FragmentHomeLoginBinding
-import com.example.genericproyect.viewmodel.LoginViewModel
+import com.example.genericproyect.viewmodel.UserViewModel
 
 
 class HomeLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeLoginBinding
-    private val loginViewModel by viewModels<LoginViewModel>()
+    private val userViewModel by viewModels<UserViewModel>()
 
 
     override fun onCreateView(
@@ -33,20 +33,20 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun observer() {
-        loginViewModel.liveCheckLoginData.observe(viewLifecycleOwner) {
+        userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
             binding.btLogin.isEnabled = it
         }
     }
 
     private fun validationField() {
         binding.etUser.doAfterTextChanged {
-            loginViewModel.checkState(
+            userViewModel.checkState(
                 it.toString(), binding.etPassword.text.toString()
             )
         }
 
         binding.etPassword.doAfterTextChanged {
-            loginViewModel.checkState(
+            userViewModel.checkState(
                 binding.etUser.text.toString(), it.toString()
             )
         }
@@ -59,6 +59,10 @@ class HomeLoginFragment : Fragment() {
 
         binding.btLogin.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
+        }
+
+        binding.tvTextHelp.setOnClickListener {
+            findNavController().navigate(R.id.helpFragment)
         }
     }
 }

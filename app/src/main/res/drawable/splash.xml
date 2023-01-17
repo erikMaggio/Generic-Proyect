@@ -9,7 +9,16 @@
         android:height="800dp">
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_splash" />
+            android:src="@drawable/logo_fb" />
+
+    </item>
+
+    <item
+        android:width="400dp"
+        android:height="800dp">
+        <bitmap
+            android:gravity="bottom"
+            android:src="@drawable/logo_from_meta" />
 
     </item>
 
