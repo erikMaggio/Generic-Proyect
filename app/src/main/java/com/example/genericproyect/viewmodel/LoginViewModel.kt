@@ -7,8 +7,10 @@ class LoginViewModel : ViewModel() {
 
     val liveCheckLoginData = MutableLiveData<Boolean>()
 
-    fun checkState(login: String) {
+    fun checkState(login: String, password: String) {
         if (login.isNotEmpty()
+            && password.isNotEmpty()
+            && verifyPassword(password)
             && !login.contains(" ")
             && !login.contains("-")
             && !login.contains("_")
@@ -21,5 +23,9 @@ class LoginViewModel : ViewModel() {
         } else {
             liveCheckLoginData.postValue(false)
         }
+    }
+
+    fun verifyPassword(password: String): Boolean {
+        return password.matches("[a-zA-Z0-9]+".toRegex())
     }
 }
