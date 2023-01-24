@@ -100,7 +100,7 @@
         android:id="@+id/tv_text_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Did you forget your password?"
+        android:text="¿Did you forget your password?"
         app:layout_constraintBottom_toTopOf="@+id/bt_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

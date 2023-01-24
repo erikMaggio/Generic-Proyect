@@ -2,10 +2,17 @@ package com.example.genericproyect.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.genericproyect.model.repository.LoginRepository
+import com.example.genericproyect.model.response.LoginResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
 
     val liveCheckUserData = MutableLiveData<Boolean>()
+    val liveUserData = MutableLiveData<LoginResponse>()
+    private val loginRepository = LoginRepository()
 
     fun checkState(login: String, password: String) {
         if (login.isNotEmpty()
@@ -54,5 +61,16 @@ class UserViewModel : ViewModel() {
 
     private fun verifyPassword(password: String): Boolean {
         return password.matches("[a-zA-Z0-9]+".toRegex())
+    }
+
+
+    //consumo de api rest
+
+    fun getLogin(email:String,password:String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = loginRepository.getLogin(email,password)
+            if (call.isSuccessful)
+                liveUserData.postValue(call.body())
+        }
     }
 }

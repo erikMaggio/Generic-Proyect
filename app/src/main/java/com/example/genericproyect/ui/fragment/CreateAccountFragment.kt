@@ -66,10 +66,16 @@ class CreateAccountFragment : Fragment() {
     private fun actions() {
         binding.ivArrowPrevious.setOnClickListener {
             findNavController().popBackStack()
+            binding.etUser.text?.clear()
+            binding.etPassword.text?.clear()
+            binding.etEmail.text?.clear()
         }
 
         binding.btCreate.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
+            binding.etUser.text?.clear()
+            binding.etPassword.text?.clear()
+            binding.etEmail.text?.clear()
         }
     }
 
