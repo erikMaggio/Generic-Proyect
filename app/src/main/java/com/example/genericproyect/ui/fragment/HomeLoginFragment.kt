@@ -1,6 +1,5 @@
 package com.example.genericproyect.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,7 +29,6 @@ class HomeLoginFragment : Fragment() {
         action()
         observer()
         validationField()
-        call()
 
         return binding.root
     }
@@ -38,22 +36,13 @@ class HomeLoginFragment : Fragment() {
     private fun observer() {
 
         userViewModel.liveUserData.observe(viewLifecycleOwner) {
-            binding.btLogin.setOnClickListener {
-                Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
-            }
+            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
             binding.btLogin.isEnabled = it
         }
 
-    }
-
-    private fun call() {
-        userViewModel.getLogin(
-            binding.etUser.text.toString(),
-            binding.etPassword.text.toString()
-        )
     }
 
     private fun validationField() {
@@ -77,11 +66,12 @@ class HomeLoginFragment : Fragment() {
             binding.etPassword.text?.clear()
         }
 
-//        binding.btLogin.setOnClickListener {
-//            findNavController().navigate(R.id.homeFragment)
-//            binding.etUser.text?.clear()
-//            binding.etPassword.text?.clear()
-//        }
+        binding.btLogin.setOnClickListener {
+            userViewModel.postLogin(
+                binding.etUser.text.toString(),
+                binding.etPassword.text.toString()
+            )
+        }
 
         binding.tvTextHelp.setOnClickListener {
             findNavController().navigate(R.id.helpFragment)

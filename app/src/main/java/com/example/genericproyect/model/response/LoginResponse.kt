@@ -14,6 +14,6 @@ data class LoginResponse(
 data class Direction(
     @SerializedName("street") val street: String,
     @SerializedName("height") val height: String,
-    @SerializedName("code_postal") val cp: String
+    @SerializedName("postal_code") val cp: String
 
 )

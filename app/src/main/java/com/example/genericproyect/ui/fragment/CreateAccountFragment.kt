@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,11 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun observer() {
+
+        userViewModel.liveNewAccountData.observe(viewLifecycleOwner) {
+            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+        }
+
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
             binding.btCreate.isEnabled = it
         }
@@ -71,12 +77,20 @@ class CreateAccountFragment : Fragment() {
             binding.etEmail.text?.clear()
         }
 
+//        binding.btCreate.setOnClickListener {
+//            findNavController().navigate(R.id.homeFragment)
+//            binding.etUser.text?.clear()
+//            binding.etPassword.text?.clear()
+//            binding.etEmail.text?.clear()
+//        }
         binding.btCreate.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
-            binding.etUser.text?.clear()
-            binding.etPassword.text?.clear()
-            binding.etEmail.text?.clear()
+            userViewModel.postRegister(
+                binding.etUser.text.toString(),
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
+            )
         }
     }
+//validacion de campo por falta de internet//verificar tamaño de pantalla //validacion a campos input/agregar diferente idioma i18n(español)
 
 }

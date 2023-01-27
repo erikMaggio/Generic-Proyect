@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.genericproyect.model.repository.LoginRepository
 import com.example.genericproyect.model.response.LoginResponse
+import com.example.genericproyect.model.response.Register
+import com.example.genericproyect.model.response.RegisterResponse
+import com.example.genericproyect.model.response.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +15,7 @@ class UserViewModel : ViewModel() {
 
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveUserData = MutableLiveData<LoginResponse>()
+    val liveNewAccountData = MutableLiveData<RegisterResponse>()
     private val loginRepository = LoginRepository()
 
     fun checkState(login: String, password: String) {
@@ -66,11 +70,21 @@ class UserViewModel : ViewModel() {
 
     //consumo de api rest
 
-    fun getLogin(email:String,password:String) {
+    fun postLogin(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val call = loginRepository.getLogin(email,password)
+            val myUser = User(email, password)
+            val call = loginRepository.postLogin(myUser)
             if (call.isSuccessful)
                 liveUserData.postValue(call.body())
+        }
+    }
+
+    fun postRegister(name: String, email: String, password: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val myUser = Register(name, email, password)
+            val call = loginRepository.postRegister(myUser)
+            if (call.isSuccessful)
+                liveNewAccountData.postValue(call.body())
         }
     }
 }
