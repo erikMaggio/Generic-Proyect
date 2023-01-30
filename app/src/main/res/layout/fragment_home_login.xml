@@ -25,20 +25,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.30" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_phone_email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
         android:hint="@string/login_et_email"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:hint="@string/login_et_password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,14 +86,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/border_radius"
         android:enabled="false"
         android:text="@string/login_bt_login"
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tf_password" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
 
     <TextView
         android:id="@+id/tv_text_help"
@@ -115,6 +117,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_login" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/bt_create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text_help" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_tv_or"
+        app:layout_constraintBottom_toTopOf="@+id/bt_create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text_help" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/bt_create"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text_help" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_create"

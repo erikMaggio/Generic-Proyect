@@ -21,6 +21,7 @@
     <string name="login_tv_help_report">¿Olvidaste tu contraseña?</string>
     <string name="login_tv_sub_tittle_create">Crear Cuenta</string>
     <string name="login_tv_tittle_create">Ingresa tus datos</string>
+    <string name="login_tv_or">O</string>
 
     <!-- String related with Create -->
 </resources>

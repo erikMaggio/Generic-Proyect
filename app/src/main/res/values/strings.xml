@@ -20,6 +20,7 @@
     <string name="login_tv_help_report">¿Did you forget your password?</string>
     <string name="login_tv_sub_tittle_create">Create Account</string>
     <string name="login_tv_tittle_create">Enter your data</string>
+    <string name="login_tv_or">OR</string>
     <!-- String related with Create -->
 
 
