@@ -15,5 +15,12 @@
     <string name="login_tv_copyright">copyright 1999-2023 MercadoLibre S.R.L</string>
     <string name="login_tv_report">Reportar un problema</string>
     <string name="login_tv_stolen_phone">Robo o perdida de teléfono</string>
+    <string name="login_et_password">Contraseña</string>
+    <string name="login_et_user">Usuario</string>
+    <string name="login_et_email">Teléfono o email</string>
+    <string name="login_tv_help_report">¿Olvidaste tu contraseña?</string>
+    <string name="login_tv_sub_tittle_create">Crear Cuenta</string>
+    <string name="login_tv_tittle_create">Ingresa tus datos</string>
+
     <!-- String related with Create -->
 </resources>

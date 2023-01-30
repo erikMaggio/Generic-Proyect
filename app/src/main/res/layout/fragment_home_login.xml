@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/image_login"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -25,6 +25,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.30" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_phone_email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -33,7 +40,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="12dp"
-        android:hint="Phone or email"
+        android:hint="@string/login_et_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline3">
@@ -42,10 +49,10 @@
             android:id="@+id/et_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:inputType="textEmailAddress"
-            android:textSize="16sp"
             android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +66,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
-        android:hint="Password"
+        android:hint="@string/login_et_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tf_phone_email">
@@ -85,14 +92,13 @@
         android:id="@+id/bt_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="12dp"
-        android:enabled="false"
         android:background="@drawable/border_radius"
+        android:enabled="false"
         android:text="@string/login_bt_login"
         android:textAlignment="center"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tf_password" />
 
@@ -100,14 +106,14 @@
         android:id="@+id/tv_text_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿Did you forget your password?"
+        android:text="@string/login_tv_help_report"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/bt_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        android:textColor="@color/blue"
-        android:textStyle="bold"
-        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/bt_login" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -122,7 +128,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_login" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
