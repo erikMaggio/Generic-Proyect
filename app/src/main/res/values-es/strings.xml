@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Proyecto generico</string>
+    <string name="app_name">inicio</string>
     <!-- String related with Home Login -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_tv_text">¡Te damos la bienvenidos a Mercado Pago!</string>
@@ -17,11 +17,12 @@
     <string name="login_tv_stolen_phone">Robo o perdida de teléfono</string>
     <string name="login_et_password">Contraseña</string>
     <string name="login_et_user">Usuario</string>
-    <string name="login_et_email">Teléfono o email</string>
+    <string name="login_et_email">Email</string>
     <string name="login_tv_help_report">¿Olvidaste tu contraseña?</string>
     <string name="login_tv_sub_tittle_create">Crear Cuenta</string>
     <string name="login_tv_tittle_create">Ingresa tus datos</string>
     <string name="login_tv_or">O</string>
+    <string name="login_et_confirm_password">Confirmar contraseña</string>
 
     <!-- String related with Create -->
 </resources>

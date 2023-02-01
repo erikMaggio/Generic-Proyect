@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeLoginFragment"
-        android:name="com.example.genericproyect.ui.fragment.HomeLoginFragment"
+        android:name="com.example.login.ui.fragment.HomeLoginFragment"
         android:label="fragment_home_login"
         tools:layout="@layout/fragment_home_login">
 
@@ -23,17 +23,17 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.genericproyect.ui.fragment.HomeFragment"
+        android:name="com.example.login.ui.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/helpFragment"
-        android:name="com.example.genericproyect.ui.fragment.HelpFragment"
+        android:name="com.example.login.ui.fragment.HelpFragment"
         android:label="fragment_help"
         tools:layout="@layout/fragment_help"/>
     <fragment
         android:id="@+id/createAccountFragment"
-        android:name="com.example.genericproyect.ui.fragment.CreateAccountFragment"
+        android:name="com.example.login.ui.fragment.CreateAccountFragment"
         android:label="CreateAccountFragment" >
         <action
             android:id="@+id/action_createAccountFragment_to_homeFragment"

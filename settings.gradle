@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Generic Proyect"
+rootProject.name = "login"
 include ':app'

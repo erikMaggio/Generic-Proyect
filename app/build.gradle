@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.genericproyect'
+    namespace 'com.example.login'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.genericproyect"
+        applicationId "com.example.login"
         minSdk 21
         targetSdk 32
         versionCode 1
