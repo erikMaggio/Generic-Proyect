@@ -8,8 +8,8 @@ import com.example.login.model.response.*
 import com.example.login.utils.AlertErrorField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import com.example.login.utils.Result
 
 class UserViewModel : ViewModel() {
 
@@ -17,7 +17,7 @@ class UserViewModel : ViewModel() {
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
     val liveUserData = MutableLiveData<LoginResponse>()
-    val liveNewAccountData = MutableLiveData<SignUpResponse>()
+    val liveNewAccountData = MutableLiveData<Result<SignUpResponse>>()
     private val loginRepository = LoginRepository()
 
     //validation field login
@@ -53,8 +53,8 @@ class UserViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val myUser = Register(name, email, password)
             val call = loginRepository.postSignUp(myUser)
-            if (call.isSuccessful)
-                liveNewAccountData.postValue(call.body())
+            if (call.isSuccessful())
+                liveNewAccountData.postValue(call)
         }
     }
 

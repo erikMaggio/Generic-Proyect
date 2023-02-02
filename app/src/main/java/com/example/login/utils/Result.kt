@@ -2,16 +2,16 @@ package com.example.login.utils
 
 import java.io.Serializable
 
-data class Result<out T>(val status: Status, private val data: T?, private val message: String?) :
+data class Result<out T>(val status: Status, val data: T?, val message: String) :
     Serializable {
 
     companion object {
 
-        fun <T> success(data: T? = null, message: String? = null): Result<T> {
+        fun <T> success(data: T? = null, message: String = ""): Result<T> {
             return Result(Status.SUCCESS, data, message)
         }
 
-        fun <T> error(data: T? = null, message: String? = null): Result<T> {
+        fun <T> error(data: T? = null, message: String = ""): Result<T> {
             return Result(Status.ERROR, data, message)
         }
     }
@@ -20,8 +20,7 @@ data class Result<out T>(val status: Status, private val data: T?, private val m
         return status == Status.SUCCESS
     }
 
-}
-
-enum class Status() {
-    SUCCESS, ERROR
+    enum class Status {
+        SUCCESS, ERROR
+    }
 }

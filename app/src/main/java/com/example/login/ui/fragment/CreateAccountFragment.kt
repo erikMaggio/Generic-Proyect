@@ -37,7 +37,7 @@ class CreateAccountFragment : Fragment() {
     private fun observer() {
 
         userViewModel.liveNewAccountData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            usesCase(it.message)
         }
 //        userViewModel.livedatatest.observe(viewLifecycleOwner) {
 //            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
@@ -129,6 +129,24 @@ class CreateAccountFragment : Fragment() {
     fun test(){
         binding.btCreate.setOnClickListener {
             userViewModel.test()
+        }
+    }
+
+    fun usesCase(errorCode:String) {
+        when(errorCode){
+            "200" ->{
+                //enviar a home
+            }
+            "401" ->{
+                //enviar a login
+            }
+            "500" ->{
+                //msj de error
+            }
+            "404" ->{
+                //alertDialog error masivo
+            }
+
         }
     }
 }

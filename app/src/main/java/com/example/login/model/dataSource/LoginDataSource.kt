@@ -5,6 +5,7 @@ import com.example.login.model.service.LoginService
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.login.utils.Result
 
 class LoginDataSource {
 
@@ -15,27 +16,34 @@ class LoginDataSource {
 
     private val serviceImp = retrofit.create(LoginService::class.java)
 
-
     suspend fun postLogin(user: User): Response<LoginResponse> {
         return serviceImp.postLogin(user)
     }
 
-    suspend fun postSignUp(register: Register): Response<SignUpResponse> {
-        return serviceImp.postSignUp(register)
+    suspend fun postSignUp(register: Register): Result<SignUpResponse> {
+        val call = serviceImp.postSignUp(register)
 
-//        if (value.code() == 200) {
-//            return Result.success(value.body())
-//        }else{
-//            // suponiendo que sea 500
-//            return Result.error(null, message = "error")
-//        }
+        return when (call.code()) {
+            200 -> {
+                Result.success(call.body(),"200")
+            }
+            401 -> {
+                Result.error(message = "401")
+            }
+            500 -> {
+                Result.error(message = "500")
+            }
+            404 -> {
+                Result.error(message = "404")
+            }
+
+            else -> {
+                Result.error(message = "0")
+            }
+        }
     }
 
     suspend fun postTest(): Response<testResponse> {
         return serviceImp.getTest()
     }
-
-
 }
-
-
