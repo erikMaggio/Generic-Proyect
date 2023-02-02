@@ -4,17 +4,16 @@ import androidx.core.util.PatternsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.login.model.repository.LoginRepository
+import com.example.login.model.response.*
 import com.example.login.utils.AlertErrorField
-import com.example.login.model.response.LoginResponse
-import com.example.login.model.response.Register
-import com.example.login.model.response.SignUpResponse
-import com.example.login.model.response.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
 
+    val livedatatest = MutableLiveData<testResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
     val liveUserData = MutableLiveData<LoginResponse>()
@@ -103,6 +102,15 @@ class UserViewModel : ViewModel() {
         } else {
             liveAlertData.postValue(AlertErrorField.ERROR_CONFIRM_PASS)
             false
+        }
+    }
+
+    fun test(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = loginRepository.test()
+            if(call.isSuccessful){
+                livedatatest.postValue(call.body())
+            }
         }
     }
 

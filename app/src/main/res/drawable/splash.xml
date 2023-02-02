@@ -4,21 +4,11 @@
 
     <item android:drawable="@color/white" />
 
-    <item
-        android:width="400dp"
-        android:height="800dp">
+    <item>
+
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_fb" />
-
-    </item>
-
-    <item
-        android:width="400dp"
-        android:height="800dp">
-        <bitmap
-            android:gravity="bottom"
-            android:src="@drawable/logo_from_meta" />
+            android:src="@drawable/nv_solutions_vertical" />
 
     </item>
 

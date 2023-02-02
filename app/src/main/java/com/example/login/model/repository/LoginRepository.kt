@@ -1,10 +1,7 @@
 package com.example.login.model.repository
 
 import com.example.login.model.dataSource.LoginDataSource
-import com.example.login.model.response.LoginResponse
-import com.example.login.model.response.Register
-import com.example.login.model.response.SignUpResponse
-import com.example.login.model.response.User
+import com.example.login.model.response.*
 import retrofit2.Response
 
 class LoginRepository {
@@ -16,5 +13,9 @@ class LoginRepository {
 
     suspend fun postSignUp(register: Register): Response<SignUpResponse> {
         return loginDataSource.postSignUp(register)
+    }
+
+    suspend fun test(): Response<testResponse> {
+        return loginDataSource.postTest()
     }
 }

@@ -1,10 +1,7 @@
 package com.example.login.model.dataSource
 
+import com.example.login.model.response.*
 import com.example.login.model.service.LoginService
-import com.example.login.model.response.LoginResponse
-import com.example.login.model.response.Register
-import com.example.login.model.response.SignUpResponse
-import com.example.login.model.response.User
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginDataSource {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://nvfsolutions.com:8080/")
+        .baseUrl("http://nvfsolutions.com:8081/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -25,6 +22,7 @@ class LoginDataSource {
 
     suspend fun postSignUp(register: Register): Response<SignUpResponse> {
         return serviceImp.postSignUp(register)
+
 //        if (value.code() == 200) {
 //            return Result.success(value.body())
 //        }else{
@@ -32,6 +30,11 @@ class LoginDataSource {
 //            return Result.error(null, message = "error")
 //        }
     }
+
+    suspend fun postTest(): Response<testResponse> {
+        return serviceImp.getTest()
+    }
+
 
 }
 

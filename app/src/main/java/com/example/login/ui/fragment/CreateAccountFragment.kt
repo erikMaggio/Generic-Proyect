@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.login.databinding.CreateAccountFragmentBinding
+import com.example.login.model.dataSource.LoginDataSource
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 
@@ -18,7 +19,6 @@ class CreateAccountFragment : Fragment() {
 
     private lateinit var binding: CreateAccountFragmentBinding
     private val userViewModel by viewModels<UserViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +29,7 @@ class CreateAccountFragment : Fragment() {
         observer()
         validationField()
         actions()
+      //  test()
 
         return binding.root
     }
@@ -38,6 +39,9 @@ class CreateAccountFragment : Fragment() {
         userViewModel.liveNewAccountData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
+//        userViewModel.livedatatest.observe(viewLifecycleOwner) {
+//            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+//        }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
             binding.btCreate.isEnabled = it
@@ -80,6 +84,7 @@ class CreateAccountFragment : Fragment() {
             binding.etEmail.text?.clear()
         }
 
+
 //        binding.btCreate.setOnClickListener {
 //            findNavController().navigate(R.id.homeFragment)
 //            binding.etUser.text?.clear()
@@ -119,6 +124,11 @@ class CreateAccountFragment : Fragment() {
                 binding.tfPassword.error =
                     "Contraseña incorrecta, el campo no cumple con los requisitos"
             }
+        }
+    }
+    fun test(){
+        binding.btCreate.setOnClickListener {
+            userViewModel.test()
         }
     }
 }

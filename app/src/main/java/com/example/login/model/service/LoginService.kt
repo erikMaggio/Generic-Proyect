@@ -7,6 +7,7 @@ import com.example.login.model.response.SignUpResponse
 import com.example.login.model.response.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface LoginService {
@@ -20,5 +21,9 @@ interface LoginService {
     suspend fun postSignUp(
         @Body register : Register
     ) : Response<SignUpResponse>
+
+    @GET("test")
+    suspend fun getTest(
+    ):Response<testResponse>
 }
 
