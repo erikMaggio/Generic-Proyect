@@ -22,8 +22,12 @@ class UserViewModel : ViewModel() {
 
     //validation field login
     fun checkStateLogin(email: String, password: String) {
+        if (verifyEmail(email) && verifyPassword(password)) {
+            liveCheckUserData.postValue(true)
+        } else {
+            liveCheckUserData.postValue(false)
+        }
 
-        liveCheckUserData.postValue(verifyEmail(email) && verifyPassword(password))
     }
 
     //validation field create account
@@ -32,7 +36,6 @@ class UserViewModel : ViewModel() {
             && verifyConfirmPassword(confirmPassword, password)
         ) {
             liveCheckUserData.postValue(true)
-            liveAlertData.postValue(AlertErrorField.SUCCESS)
         } else {
             liveCheckUserData.postValue(false)
         }
@@ -65,6 +68,7 @@ class UserViewModel : ViewModel() {
             && (user.length >= 3)
             && user.isNotEmpty()
         ) {
+            liveAlertData.postValue(AlertErrorField.SUCCESS)
             true
         } else {
             liveAlertData.postValue(AlertErrorField.ERROR_USER)
@@ -77,6 +81,7 @@ class UserViewModel : ViewModel() {
             && email.length >= 3
             && email.isNotEmpty()
         ) {
+            liveAlertData.postValue(AlertErrorField.SUCCESS)
             true
         } else {
             liveAlertData.postValue(AlertErrorField.ERROR_EMAIL)
@@ -89,6 +94,7 @@ class UserViewModel : ViewModel() {
             && password.length >= 3
             && password.isNotEmpty()
         ) {
+            liveAlertData.postValue(AlertErrorField.SUCCESS)
             true
         } else {
             liveAlertData.postValue(AlertErrorField.ERROR_PASSWORD)
@@ -98,6 +104,7 @@ class UserViewModel : ViewModel() {
 
     private fun verifyConfirmPassword(pass1: String, pass2: String): Boolean {
         return if (pass1 == pass2) {
+            liveAlertData.postValue(AlertErrorField.SUCCESS)
             true
         } else {
             liveAlertData.postValue(AlertErrorField.ERROR_CONFIRM_PASS)
@@ -105,10 +112,10 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun test(){
+    fun test() {
         CoroutineScope(Dispatchers.IO).launch {
             val call = loginRepository.test()
-            if(call.isSuccessful){
+            if (call.isSuccessful) {
                 livedatatest.postValue(call.body())
             }
         }

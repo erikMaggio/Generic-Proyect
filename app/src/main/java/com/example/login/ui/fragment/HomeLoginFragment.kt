@@ -47,58 +47,62 @@ class HomeLoginFragment : Fragment() {
         }
     }
 
-
     private fun validationField() {
-        binding.etUser.doAfterTextChanged {
-            userViewModel.checkStateLogin(
-                it.toString(), binding.etPassword.text.toString()
-            )
+        binding.etEmail.doAfterTextChanged {
+            checkFields()
         }
 
         binding.etPassword.doAfterTextChanged {
-            userViewModel.checkStateLogin(
-                binding.etUser.text.toString(), it.toString()
-            )
+            checkFields()
         }
     }
 
     private fun action() {
         binding.btCreate.setOnClickListener {
             findNavController().navigate(R.id.createAccountFragment)
-            binding.etUser.text?.clear()
+            binding.etEmail.text?.clear()
             binding.etPassword.text?.clear()
         }
 
         binding.btLogin.setOnClickListener {
             userViewModel.postLogin(
-                binding.etUser.text.toString(),
+                binding.etEmail.text.toString(),
                 binding.etPassword.text.toString()
             )
         }
 
         binding.tvTextHelp.setOnClickListener {
             findNavController().navigate(R.id.helpFragment)
-            binding.etUser.text?.clear()
+            binding.etEmail.text?.clear()
             binding.etPassword.text?.clear()
         }
     }
 
-    fun alertCase(status: AlertErrorField) {
+    private fun alertCase(status: AlertErrorField) {
         when (status) {
             AlertErrorField.SUCCESS -> {
-                binding.tfPhoneEmail.isErrorEnabled = false
+                binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
             }
             AlertErrorField.ERROR_EMAIL -> {
-                binding.tfPhoneEmail.error = "Email incorrecto"
+                binding.tfPassword.isErrorEnabled = false
+                binding.tfEmail.error = "Email incorrecto"
             }
 
             AlertErrorField.ERROR_PASSWORD -> {
+                binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.error = "Contraseña Incorrecta"
             }
-            else -> {"error"}
+            else -> {
+                "error"
+            }
         }
-
     }
 
+    private fun checkFields() {
+        userViewModel.checkStateLogin(
+            binding.etEmail.text.toString(),
+            binding.etPassword.text.toString()
+        )
+    }
 }

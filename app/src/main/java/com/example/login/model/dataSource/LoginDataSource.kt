@@ -21,7 +21,7 @@ class LoginDataSource {
     }
 
     suspend fun postSignUp(register: Register): Result<SignUpResponse> {
-        val call = serviceImp.postSignUp(register)
+        val call: Response<SignUpResponse> = serviceImp.postSignUp(register)
 
         return when (call.code()) {
             200 -> {

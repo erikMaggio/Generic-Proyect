@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.login.R
 import com.example.login.databinding.CreateAccountFragmentBinding
 import com.example.login.model.dataSource.LoginDataSource
 import com.example.login.utils.AlertErrorField
@@ -29,7 +30,8 @@ class CreateAccountFragment : Fragment() {
         observer()
         validationField()
         actions()
-      //  test()
+        binding.btCreate.isEnabled = true
+
 
         return binding.root
     }
@@ -39,12 +41,9 @@ class CreateAccountFragment : Fragment() {
         userViewModel.liveNewAccountData.observe(viewLifecycleOwner) {
             usesCase(it.message)
         }
-//        userViewModel.livedatatest.observe(viewLifecycleOwner) {
-//            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-//        }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
-            binding.btCreate.isEnabled = it
+       //     binding.btCreate.isEnabled = it
         }
 
         userViewModel.liveAlertData.observe(viewLifecycleOwner) {
@@ -67,15 +66,6 @@ class CreateAccountFragment : Fragment() {
         }
     }
 
-    private fun checkFields() {
-        userViewModel.checkStateCreate(
-            binding.etUser.text.toString(),
-            binding.etEmail.text.toString(),
-            binding.etPassword.text.toString(),
-            binding.etConfirmPassword.text.toString()
-        )
-    }
-
     private fun actions() {
         binding.ivArrowPrevious.setOnClickListener {
             findNavController().popBackStack()
@@ -84,18 +74,12 @@ class CreateAccountFragment : Fragment() {
             binding.etEmail.text?.clear()
         }
 
-
-//        binding.btCreate.setOnClickListener {
-//            findNavController().navigate(R.id.homeFragment)
-//            binding.etUser.text?.clear()
-//            binding.etPassword.text?.clear()
-//            binding.etEmail.text?.clear()
-//        }
         binding.btCreate.setOnClickListener {
             userViewModel.postSignUp(
-                binding.etUser.text.toString(),
-                binding.etEmail.text.toString(),
-                binding.etPassword.text.toString()
+                "erik","test@asd.com","123123"
+//                binding.etUser.text.toString(),
+//                binding.etEmail.text.toString(),
+//                binding.etPassword.text.toString()
             )
         }
     }
@@ -104,7 +88,7 @@ class CreateAccountFragment : Fragment() {
         when (status) {
             AlertErrorField.SUCCESS -> {
                 binding.tfUser.isErrorEnabled = false
-                binding.tfPhoneEmail.isErrorEnabled = false
+                binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfConfirmPassword.isErrorEnabled = false
             }
@@ -113,7 +97,7 @@ class CreateAccountFragment : Fragment() {
                     "Usuario incorrecto, el campo no cumple con los requisitos"
             }
             AlertErrorField.ERROR_EMAIL -> {
-                binding.tfPhoneEmail.error =
+                binding.tfEmail.error =
                     "Email incorrecto, el campo no cumple con los requisitos"
             }
             AlertErrorField.ERROR_PASSWORD -> {
@@ -126,27 +110,35 @@ class CreateAccountFragment : Fragment() {
             }
         }
     }
-    fun test(){
-        binding.btCreate.setOnClickListener {
-            userViewModel.test()
-        }
-    }
 
-    fun usesCase(errorCode:String) {
-        when(errorCode){
-            "200" ->{
-                //enviar a home
+    private fun usesCase(errorCode: String) {
+        when (errorCode) {
+            "200" -> {
+
+                   // findNavController().navigate(R.id.homeFragment)
+                Toast.makeText(context, userViewModel.liveNewAccountData.value.toString(), Toast.LENGTH_SHORT).show()
             }
-            "401" ->{
-                //enviar a login
+            "401" -> {
+                binding.btCreate.setOnClickListener {
+                    findNavController().popBackStack()
+                }
             }
-            "500" ->{
-                //msj de error
+            "500" -> {
+                Toast.makeText(context, "error al ingresar", Toast.LENGTH_SHORT).show()
             }
-            "404" ->{
+            "404" -> {
                 //alertDialog error masivo
             }
-
         }
+
+    }
+
+    private fun checkFields() {
+        userViewModel.checkStateCreate(
+            binding.etUser.text.toString(),
+            binding.etEmail.text.toString(),
+            binding.etPassword.text.toString(),
+            binding.etConfirmPassword.text.toString()
+        )
     }
 }
