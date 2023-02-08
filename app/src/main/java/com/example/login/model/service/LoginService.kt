@@ -25,5 +25,10 @@ interface LoginService {
     @GET("test")
     suspend fun getTest(
     ):Response<testResponse>
+
+    @POST("forgotpassword")
+    suspend fun postRecoverPass(
+        @Body recover:Recover
+    ): Response<RecoverResponse>
 }
 

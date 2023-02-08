@@ -19,4 +19,8 @@ class LoginRepository {
     suspend fun test(): Response<testResponse> {
         return loginDataSource.postTest()
     }
+
+    suspend fun postRecoverPass(email:Recover): Response<RecoverResponse> {
+        return loginDataSource.postRecoverPass(email)
+    }
 }

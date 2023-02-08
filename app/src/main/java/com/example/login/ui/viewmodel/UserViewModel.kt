@@ -14,6 +14,8 @@ import com.example.login.utils.Result
 class UserViewModel : ViewModel() {
 
     val livedatatest = MutableLiveData<testResponse>()
+
+    val liveRecoverData = MutableLiveData<RecoverResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
     val liveUserData = MutableLiveData<LoginResponse>()
@@ -56,8 +58,20 @@ class UserViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val myUser = Register(name, email, password)
             val call = loginRepository.postSignUp(myUser)
-            if (call.isSuccessful())
+            if (call.isSuccessful()) {
                 liveNewAccountData.postValue(call)
+            }
+        }
+    }
+
+    //api forgot pass
+    fun postRecoverPass(email: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val myUser = Recover(email)
+            val call = loginRepository.postRecoverPass(myUser)
+            if (call.isSuccessful) {
+                liveRecoverData.postValue(call.body())
+            }
         }
     }
 
@@ -76,7 +90,7 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    private fun verifyEmail(email: String): Boolean {
+    fun verifyEmail(email: String): Boolean {
         return if (PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
             && email.length >= 3
             && email.isNotEmpty()

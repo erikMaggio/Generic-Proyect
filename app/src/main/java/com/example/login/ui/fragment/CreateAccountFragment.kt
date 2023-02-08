@@ -1,5 +1,6 @@
 package com.example.login.ui.fragment
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -43,7 +44,7 @@ class CreateAccountFragment : Fragment() {
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
-       //     binding.btCreate.isEnabled = it
+            //     binding.btCreate.isEnabled = it
         }
 
         userViewModel.liveAlertData.observe(viewLifecycleOwner) {
@@ -76,11 +77,12 @@ class CreateAccountFragment : Fragment() {
 
         binding.btCreate.setOnClickListener {
             userViewModel.postSignUp(
-                "erik","test@asd.com","123123"
+                "erik", "test@asd.com", "123123"
 //                binding.etUser.text.toString(),
 //                binding.etEmail.text.toString(),
 //                binding.etPassword.text.toString()
             )
+        //    findNavController().navigate(R.id.homeFragment)
         }
     }
 
@@ -93,18 +95,30 @@ class CreateAccountFragment : Fragment() {
                 binding.tfConfirmPassword.isErrorEnabled = false
             }
             AlertErrorField.ERROR_USER -> {
+                binding.tfEmail.isErrorEnabled = false
+                binding.tfPassword.isErrorEnabled = false
+                binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfUser.error =
                     "Usuario incorrecto, el campo no cumple con los requisitos"
             }
             AlertErrorField.ERROR_EMAIL -> {
+                binding.tfUser.isErrorEnabled = false
+                binding.tfPassword.isErrorEnabled = false
+                binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfEmail.error =
                     "Email incorrecto, el campo no cumple con los requisitos"
             }
             AlertErrorField.ERROR_PASSWORD -> {
+                binding.tfConfirmPassword.isErrorEnabled = false
+                binding.tfUser.isErrorEnabled = false
+                binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.error =
                     "Contraseña incorrecta, el campo no cumple con los requisitos"
             }
             AlertErrorField.ERROR_CONFIRM_PASS -> {
+                binding.tfUser.isErrorEnabled = false
+                binding.tfEmail.isErrorEnabled = false
+                binding.tfPassword.isErrorEnabled = false
                 binding.tfPassword.error =
                     "Contraseña incorrecta, el campo no cumple con los requisitos"
             }
@@ -114,9 +128,12 @@ class CreateAccountFragment : Fragment() {
     private fun usesCase(errorCode: String) {
         when (errorCode) {
             "200" -> {
-
-                   // findNavController().navigate(R.id.homeFragment)
-                Toast.makeText(context, userViewModel.liveNewAccountData.value.toString(), Toast.LENGTH_SHORT).show()
+                // findNavController().navigate(R.id.homeFragment)
+                Toast.makeText(
+                    context,
+                    userViewModel.liveNewAccountData.value.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             "401" -> {
                 binding.btCreate.setOnClickListener {

@@ -46,4 +46,8 @@ class LoginDataSource {
     suspend fun postTest(): Response<testResponse> {
         return serviceImp.getTest()
     }
+
+    suspend fun postRecoverPass(email:Recover): Response<RecoverResponse> {
+        return serviceImp.postRecoverPass(email)
+    }
 }
