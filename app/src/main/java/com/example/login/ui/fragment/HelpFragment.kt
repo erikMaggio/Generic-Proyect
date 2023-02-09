@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.login.R
 import com.example.login.databinding.FragmentHelpBinding
 import com.example.login.ui.viewmodel.UserViewModel
-
 
 class HelpFragment : Fragment() {
 
@@ -27,11 +27,17 @@ class HelpFragment : Fragment() {
 
         observer()
         actions()
+        validateField()
 
         return binding.root
     }
 
     private fun observer() {
+
+        userViewModel.liveEmailData.observe(viewLifecycleOwner) {
+            binding.btRecover.isEnabled = it
+        }
+
         userViewModel.liveRecoverData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
@@ -44,6 +50,12 @@ class HelpFragment : Fragment() {
 
         binding.ivArrowPrevious.setOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun validateField() {
+        binding.etEmail.doAfterTextChanged {
+            userViewModel.checkEmailRecover(binding.etEmail.text.toString())
         }
     }
 

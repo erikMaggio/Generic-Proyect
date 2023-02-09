@@ -31,7 +31,6 @@ class CreateAccountFragment : Fragment() {
         observer()
         validationField()
         actions()
-        binding.btCreate.isEnabled = true
 
 
         return binding.root
@@ -44,7 +43,7 @@ class CreateAccountFragment : Fragment() {
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
-            //     binding.btCreate.isEnabled = it
+                binding.btCreate.isEnabled = it
         }
 
         userViewModel.liveAlertData.observe(viewLifecycleOwner) {
@@ -77,10 +76,9 @@ class CreateAccountFragment : Fragment() {
 
         binding.btCreate.setOnClickListener {
             userViewModel.postSignUp(
-                "erik", "test@asd.com", "123123"
-//                binding.etUser.text.toString(),
-//                binding.etEmail.text.toString(),
-//                binding.etPassword.text.toString()
+                binding.etUser.text.toString(),
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
             )
         //    findNavController().navigate(R.id.homeFragment)
         }

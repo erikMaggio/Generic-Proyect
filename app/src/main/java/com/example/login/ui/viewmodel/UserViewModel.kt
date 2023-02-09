@@ -14,7 +14,7 @@ import com.example.login.utils.Result
 class UserViewModel : ViewModel() {
 
     val livedatatest = MutableLiveData<testResponse>()
-
+    val liveEmailData = MutableLiveData<Boolean>()
     val liveRecoverData = MutableLiveData<RecoverResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
@@ -41,6 +41,10 @@ class UserViewModel : ViewModel() {
         } else {
             liveCheckUserData.postValue(false)
         }
+    }
+
+    fun checkEmailRecover(email:String) {
+        liveEmailData.postValue(verifyEmail(email))
     }
 
     //api login
