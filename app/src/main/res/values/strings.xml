@@ -22,6 +22,8 @@
     <string name="login_tv_tittle_create">Enter your data</string>
     <string name="login_tv_or">OR</string>
     <string name="login_et_confirm_password">Confirm password</string>
+    <string name="recover_tv_tittle">Enter Email to recover your password</string>
+    <string name="recover_bt_recover">Recover password</string>
     <!-- String related with Create -->
 
 

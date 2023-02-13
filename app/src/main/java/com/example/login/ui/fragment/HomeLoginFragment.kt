@@ -1,5 +1,6 @@
 package com.example.login.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,7 +37,8 @@ class HomeLoginFragment : Fragment() {
     private fun observer() {
 
         userViewModel.liveUserData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
@@ -104,5 +106,18 @@ class HomeLoginFragment : Fragment() {
             binding.etEmail.text.toString(),
             binding.etPassword.text.toString()
         )
+    }
+
+    private fun alertDialogError() {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Falla Del Sistema")
+        alertDialog.setMessage("Ha ocurrido un error obteniendo la información")
+        alertDialog.setPositiveButton("Reintentar") { _, _ ->
+            findNavController().navigate(R.id.homeLoginFragment)
+        }
+        alertDialog.setNegativeButton("Cancelar") { _, _ ->
+
+        }
+        alertDialog.show()
     }
 }

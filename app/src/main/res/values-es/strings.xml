@@ -23,6 +23,9 @@
     <string name="login_tv_tittle_create">Ingresa tus datos</string>
     <string name="login_tv_or">O</string>
     <string name="login_et_confirm_password">Confirmar contraseña</string>
+    <string name="recover_tv_tittle">Ingrese su email para recuperar la contraseña</string>
+    <string name="recover_bt_recover">Recuperar contraseña</string>
+
 
     <!-- String related with Create -->
 </resources>

@@ -6,6 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.login.model.repository.LoginRepository
 import com.example.login.model.response.*
 import com.example.login.utils.AlertErrorField
+import com.example.login.utils.CodesError.AUTH_ERROR
+import com.example.login.utils.CodesError.CODE_401
+import com.example.login.utils.CodesError.CODE_500
+import com.example.login.utils.CodesError.NOT_REGISTER
+import com.example.login.utils.CodesError.SUCCESS_CREATE
+import com.example.login.utils.CodesError.USER_REGISTER_ERROR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,7 +19,7 @@ import com.example.login.utils.Result
 
 class UserViewModel : ViewModel() {
 
-    val livedatatest = MutableLiveData<testResponse>()
+    val data = MutableLiveData<UserViewModelEvent>()
     val liveEmailData = MutableLiveData<Boolean>()
     val liveRecoverData = MutableLiveData<RecoverResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
@@ -29,7 +35,7 @@ class UserViewModel : ViewModel() {
         } else {
             liveCheckUserData.postValue(false)
         }
-
+//base de datos local  // crear registro en una tabla // obetener y borrar //
     }
 
     //validation field create account
@@ -43,7 +49,7 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun checkEmailRecover(email:String) {
+    fun checkEmailRecover(email: String) {
         liveEmailData.postValue(verifyEmail(email))
     }
 
@@ -63,7 +69,17 @@ class UserViewModel : ViewModel() {
             val myUser = Register(name, email, password)
             val call = loginRepository.postSignUp(myUser)
             if (call.isSuccessful()) {
-                liveNewAccountData.postValue(call)
+                when (call.message) {
+                    USER_REGISTER_ERROR ->{ data.postValue(UserViewModelEvent.UserAlreadyRegister(call.message))}
+                    AUTH_ERROR -> {}
+                    NOT_REGISTER -> {}
+                    SUCCESS_CREATE -> {data.postValue(UserViewModelEvent.RegisterSuccessful(call.message))}
+                }
+            } else {
+                when(call.message){
+                    CODE_500->{}
+                    CODE_401 ->{data.postValue(UserViewModelEvent.RegisterError401(call.message))}
+                }
             }
         }
     }
@@ -129,14 +145,4 @@ class UserViewModel : ViewModel() {
             false
         }
     }
-
-    fun test() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val call = loginRepository.test()
-            if (call.isSuccessful) {
-                livedatatest.postValue(call.body())
-            }
-        }
-    }
-
 }

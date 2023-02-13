@@ -1,6 +1,7 @@
 package com.example.login.ui.fragment
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.login.databinding.CreateAccountFragmentBinding
 import com.example.login.model.dataSource.LoginDataSource
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
+import com.example.login.ui.viewmodel.UserViewModelEvent
 
 
 class CreateAccountFragment : Fragment() {
@@ -38,12 +40,26 @@ class CreateAccountFragment : Fragment() {
 
     private fun observer() {
 
-        userViewModel.liveNewAccountData.observe(viewLifecycleOwner) {
-            usesCase(it.message)
+        userViewModel.data.observe(viewLifecycleOwner) {
+            when(it) {
+
+                is UserViewModelEvent.UserAlreadyRegister ->{
+                    showUserExisting()
+                }
+
+                is UserViewModelEvent.RegisterSuccessful -> {
+                    //crear funcion de lo que tengo que mostrar si es success
+                    showSuccessRegister()
+                }
+                is UserViewModelEvent.RegisterError401 -> {
+                    //crear funcion de lo que tengo que mostrar si es error
+                    showError401()
+                }
+            }
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
-                binding.btCreate.isEnabled = it
+            binding.btCreate.isEnabled = it
         }
 
         userViewModel.liveAlertData.observe(viewLifecycleOwner) {
@@ -80,8 +96,51 @@ class CreateAccountFragment : Fragment() {
                 binding.etEmail.text.toString(),
                 binding.etPassword.text.toString()
             )
-        //    findNavController().navigate(R.id.homeFragment)
         }
+    }
+
+    private fun alertDialogError() {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Falla Del Sistema")
+        alertDialog.setMessage("Ha ocurrido un error obteniendo la información")
+        alertDialog.setPositiveButton("Reintentar") { _, _ ->
+            findNavController().navigate(R.id.createAccountFragment)
+        }
+        alertDialog.setNegativeButton("Cancelar") { _, _ ->
+
+        }
+        alertDialog.show()
+    }
+
+    private fun alertDialogSuccess() {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Cuenta Creada")
+        alertDialog.setMessage("Se ha enviado un correo de verificacion")
+        alertDialog.setPositiveButton("Continuar") { _, _ ->
+            findNavController().navigate(R.id.homeLoginFragment)
+        }
+        alertDialog.show()
+    }
+
+    private fun checkFields() {
+        userViewModel.checkStateCreate(
+            binding.etUser.text.toString(),
+            binding.etEmail.text.toString(),
+            binding.etPassword.text.toString(),
+            binding.etConfirmPassword.text.toString()
+        )
+    }
+
+    private fun showSuccessRegister(){
+        alertDialogSuccess()
+    }
+
+    private fun showError401(){
+        alertDialogError()
+    }
+
+    private fun showUserExisting(){
+        Toast.makeText(context, "Usuario ya Registrado", Toast.LENGTH_SHORT).show()
     }
 
     private fun alertCase(status: AlertErrorField) {
@@ -121,39 +180,5 @@ class CreateAccountFragment : Fragment() {
                     "Contraseña incorrecta, el campo no cumple con los requisitos"
             }
         }
-    }
-
-    private fun usesCase(errorCode: String) {
-        when (errorCode) {
-            "200" -> {
-                // findNavController().navigate(R.id.homeFragment)
-                Toast.makeText(
-                    context,
-                    userViewModel.liveNewAccountData.value.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            "401" -> {
-                binding.btCreate.setOnClickListener {
-                    findNavController().popBackStack()
-                }
-            }
-            "500" -> {
-                Toast.makeText(context, "error al ingresar", Toast.LENGTH_SHORT).show()
-            }
-            "404" -> {
-                //alertDialog error masivo
-            }
-        }
-
-    }
-
-    private fun checkFields() {
-        userViewModel.checkStateCreate(
-            binding.etUser.text.toString(),
-            binding.etEmail.text.toString(),
-            binding.etPassword.text.toString(),
-            binding.etConfirmPassword.text.toString()
-        )
     }
 }

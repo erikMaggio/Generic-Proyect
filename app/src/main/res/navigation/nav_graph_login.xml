@@ -38,5 +38,8 @@
         <action
             android:id="@+id/action_createAccountFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_createAccountFragment_to_homeLoginFragment"
+            app:destination="@id/homeLoginFragment" />
     </fragment>
 </navigation>
