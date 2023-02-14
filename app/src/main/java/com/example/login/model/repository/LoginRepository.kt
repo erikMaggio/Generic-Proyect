@@ -8,7 +8,7 @@ import retrofit2.Response
 class LoginRepository {
     private val loginDataSource = LoginDataSource()
 
-    suspend fun postLogin(user: User): Response<LoginResponse> {
+    suspend fun postLogin(user: User): Result<LoginResponse> {
         return loginDataSource.postLogin(user)
     }
 

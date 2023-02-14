@@ -8,51 +8,45 @@ import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.CodesError.CODE_500
 import com.example.login.utils.CodesError.NOT_REGISTER
 import com.example.login.utils.CodesError.SUCCESS_CREATE
+import com.example.login.utils.CodesError.SUCCESS_LOGIN
 import com.example.login.utils.CodesError.USER_REGISTER_ERROR
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.login.utils.Result
 import okhttp3.OkHttpClient
-import java.io.InputStream
-import java.net.URLConnection
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
 class LoginDataSource {
-    private val url = "http://nvfsolutions.com:8081/"
+    private val url = "https://nvfsolutions.com:8443/"
 
-   // private val client = OkHttpClient.Builder()
-//        .sslSocketFactory(
-//            SSLContext.getInstance("SSL")
-//                .apply {
-//                    init(null, arrayOf(TrustAllCerts()), SecureRandom())
-//                }
-//                .socketFactory
-//        )
-//        .hostnameVerifier { _, _ -> true }
-//        .build()
+    private val client = OkHttpClient.Builder()
+        .sslSocketFactory(
+            SSLContext.getInstance("SSL")
+                .apply {
+                    init(null, arrayOf(TrustAllCerts()), SecureRandom())
+                }
+                .socketFactory
+        )
+        .hostnameVerifier { _, _ -> true }
+        .build()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(url)
-       // .client(client)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val serviceImp = retrofit.create(LoginService::class.java)
 
-    suspend fun postLogin(user: User): Response<LoginResponse> {
-        return serviceImp.postLogin(user)
-    }
-
-    suspend fun postSignUp(register: Register): Result<SignUpResponse> {
-        val call: Response<SignUpResponse> = serviceImp.postSignUp(register)
-
+    suspend fun postLogin(user: User): Result<LoginResponse> {
+        val call: Response<LoginResponse> = serviceImp.postLogin(user)
         return when (call.code()) {
             200 -> {
-                checkResponse(call.body()!!.message)
+                checkResponseLogin(call.body()!!.message)
             }
             401 -> {
                 Result.error(message = CODE_401)
@@ -61,8 +55,30 @@ class LoginDataSource {
                 Result.error(message = CODE_500)
             }
             404 -> {
-                Result.error(message = "404")
-                //crear object en utils de estas val
+                Result.error(message = CODE_404)
+            }
+
+            else -> {
+                Result.error(message = "0")
+            }
+        }
+    }
+
+    suspend fun postSignUp(register: Register): Result<SignUpResponse> {
+        val call: Response<SignUpResponse> = serviceImp.postSignUp(register)
+
+        return when (call.code()) {
+            200 -> {
+                checkResponseSignUp(call.body()!!.message)
+            }
+            401 -> {
+                Result.error(message = CODE_401)
+            }
+            500 -> {
+                Result.error(message = CODE_500)
+            }
+            404 -> {
+                Result.error(message = CODE_404)
             }
 
             else -> {
@@ -77,20 +93,36 @@ class LoginDataSource {
 
     suspend fun postRecoverPass(email: Recover): Response<RecoverResponse> {
         return serviceImp.postRecoverPass(email)
+
     }
 
-    private fun checkResponse(message: String): Result<SignUpResponse> {
+    private fun checkResponseLogin(message: String): Result<LoginResponse> {
+        return when (message) {
+
+            "Usuario no registrado" -> {
+                Result.success(message = NOT_REGISTER )
+            }
+            "Acceso no autorizado" -> {
+                Result.success(message = AUTH_ERROR)
+            }
+            "" -> Result.success(message = SUCCESS_LOGIN)
+
+            else -> {
+                Result.success(message = CODE_404)
+            }
+        }
+    }
+
+    private fun checkResponseSignUp(message: String): Result<SignUpResponse> {
         return when (message) {
 
             "Usuario ya registrado" -> {
                 Result.success(message = USER_REGISTER_ERROR)
             }
             "Usuario no registrado" -> {
-                Result.success(message = AUTH_ERROR)
-            }
-            "Acceso no autorizado" -> {
                 Result.success(message = NOT_REGISTER)
             }
+
             "" -> Result.success(message = SUCCESS_CREATE)
 
             else -> {
@@ -100,8 +132,8 @@ class LoginDataSource {
     }
 }
 
-//class TrustAllCerts : X509TrustManager {
-//    override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
-//    override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
-//    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
-//}
+class TrustAllCerts : X509TrustManager {
+    override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
+    override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
+    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+}

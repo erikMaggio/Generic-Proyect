@@ -8,14 +8,15 @@ import com.example.login.model.response.*
 import com.example.login.utils.AlertErrorField
 import com.example.login.utils.CodesError.AUTH_ERROR
 import com.example.login.utils.CodesError.CODE_401
+import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.CodesError.CODE_500
 import com.example.login.utils.CodesError.NOT_REGISTER
 import com.example.login.utils.CodesError.SUCCESS_CREATE
+import com.example.login.utils.CodesError.SUCCESS_LOGIN
 import com.example.login.utils.CodesError.USER_REGISTER_ERROR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.example.login.utils.Result
 
 class UserViewModel : ViewModel() {
 
@@ -24,8 +25,7 @@ class UserViewModel : ViewModel() {
     val liveRecoverData = MutableLiveData<RecoverResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
-    val liveUserData = MutableLiveData<LoginResponse>()
-    val liveNewAccountData = MutableLiveData<Result<SignUpResponse>>()
+
     private val loginRepository = LoginRepository()
 
     //validation field login
@@ -35,7 +35,6 @@ class UserViewModel : ViewModel() {
         } else {
             liveCheckUserData.postValue(false)
         }
-//base de datos local  // crear registro en una tabla // obetener y borrar //
     }
 
     //validation field create account
@@ -58,8 +57,33 @@ class UserViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val myUser = User(email, password)
             val call = loginRepository.postLogin(myUser)
-            if (call.isSuccessful)
-                liveUserData.postValue(call.body())
+            if (call.isSuccessful()) {
+                when (call.message) {
+
+                    SUCCESS_LOGIN -> {
+                        data.postValue(UserViewModelEvent.UserSuccessful(call.message))
+                    }
+                    AUTH_ERROR -> {
+                        data.postValue(UserViewModelEvent.UserAuthError(call.message))
+                    }
+
+                    NOT_REGISTER -> {
+                        data.postValue(UserViewModelEvent.UserNotRegister(call.message))
+                    }
+                }
+            } else {
+                when (call.message) {
+                    CODE_500 -> {
+                        data.postValue(UserViewModelEvent.UserError500(call.message))
+                    }
+                    CODE_401 -> {
+                        data.postValue(UserViewModelEvent.RegisterError401(call.message))
+                    }
+                    CODE_404 -> {
+                        data.postValue(UserViewModelEvent.UserError404(call.message))
+                    }
+                }
+            }
         }
     }
 
@@ -70,15 +94,28 @@ class UserViewModel : ViewModel() {
             val call = loginRepository.postSignUp(myUser)
             if (call.isSuccessful()) {
                 when (call.message) {
-                    USER_REGISTER_ERROR ->{ data.postValue(UserViewModelEvent.UserAlreadyRegister(call.message))}
-                    AUTH_ERROR -> {}
-                    NOT_REGISTER -> {}
-                    SUCCESS_CREATE -> {data.postValue(UserViewModelEvent.RegisterSuccessful(call.message))}
+                    SUCCESS_CREATE -> {
+                        data.postValue(UserViewModelEvent.UserSuccessful(call.message))
+                    }
+                    USER_REGISTER_ERROR -> {
+                        data.postValue(UserViewModelEvent.UserAlreadyRegister(call.message))
+                    }
+                    NOT_REGISTER -> {
+                        data.postValue(UserViewModelEvent.UserNotRegister(call.message))
+                    }
+
                 }
             } else {
-                when(call.message){
-                    CODE_500->{}
-                    CODE_401 ->{data.postValue(UserViewModelEvent.RegisterError401(call.message))}
+                when (call.message) {
+                    CODE_500 -> {
+                        data.postValue(UserViewModelEvent.UserError500(call.message))
+                    }
+                    CODE_401 -> {
+                        data.postValue(UserViewModelEvent.RegisterError401(call.message))
+                    }
+                    CODE_404 -> {
+                        data.postValue(UserViewModelEvent.UserError404(call.message))
+                    }
                 }
             }
         }

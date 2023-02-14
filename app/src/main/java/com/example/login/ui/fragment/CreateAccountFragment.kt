@@ -39,22 +39,25 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun observer() {
-
         userViewModel.data.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
 
-                is UserViewModelEvent.UserAlreadyRegister ->{
+                is UserViewModelEvent.UserAlreadyRegister -> {
                     showUserExisting()
                 }
 
-                is UserViewModelEvent.RegisterSuccessful -> {
-                    //crear funcion de lo que tengo que mostrar si es success
+                is UserViewModelEvent.UserSuccessful -> {
                     showSuccessRegister()
                 }
                 is UserViewModelEvent.RegisterError401 -> {
-                    //crear funcion de lo que tengo que mostrar si es error
                     showError401()
                 }
+                is UserViewModelEvent.UserError500 -> {
+                    showUserError500()
+                }
+
+                else -> {showError404()}
+
             }
         }
 
@@ -131,17 +134,26 @@ class CreateAccountFragment : Fragment() {
         )
     }
 
-    private fun showSuccessRegister(){
+    private fun showSuccessRegister() {
         alertDialogSuccess()
     }
 
-    private fun showError401(){
+    private fun showError401() {
         alertDialogError()
     }
 
-    private fun showUserExisting(){
+    private fun showUserExisting() {
         Toast.makeText(context, "Usuario ya Registrado", Toast.LENGTH_SHORT).show()
     }
+
+    private fun showUserError500() {
+        findNavController().navigate(R.id.homeLoginFragment)
+    }
+
+    private fun showError404() {
+        Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun alertCase(status: AlertErrorField) {
         when (status) {

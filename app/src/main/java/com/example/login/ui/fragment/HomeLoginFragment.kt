@@ -14,6 +14,8 @@ import com.example.login.R
 import com.example.login.databinding.FragmentHomeLoginBinding
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
+import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.utils.CodesError.CODE_404
 
 
 class HomeLoginFragment : Fragment() {
@@ -36,9 +38,30 @@ class HomeLoginFragment : Fragment() {
 
     private fun observer() {
 
-        userViewModel.liveUserData.observe(viewLifecycleOwner) {
-            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+        userViewModel.data.observe(viewLifecycleOwner) {
+            when (it) {
 
+                is UserViewModelEvent.UserSuccessful -> {
+                    showSuccessLogin()
+                }
+
+                is UserViewModelEvent.UserNotRegister -> {
+                    showUserNotRegister()
+
+                }
+
+                is UserViewModelEvent.RegisterError401 -> {
+                    showError401()
+                }
+                is UserViewModelEvent.UserError500 -> {
+                    showUserError500()
+                }
+
+                else -> {
+                    showError404()
+                }
+
+            }
         }
 
         userViewModel.liveCheckUserData.observe(viewLifecycleOwner) {
@@ -62,8 +85,7 @@ class HomeLoginFragment : Fragment() {
     private fun action() {
         binding.btCreate.setOnClickListener {
             findNavController().navigate(R.id.createAccountFragment)
-            binding.etEmail.text?.clear()
-            binding.etPassword.text?.clear()
+            clearFields()
         }
 
         binding.btLogin.setOnClickListener {
@@ -75,30 +97,13 @@ class HomeLoginFragment : Fragment() {
 
         binding.tvTextHelp.setOnClickListener {
             findNavController().navigate(R.id.helpFragment)
-            binding.etEmail.text?.clear()
-            binding.etPassword.text?.clear()
+            clearFields()
         }
     }
 
-    private fun alertCase(status: AlertErrorField) {
-        when (status) {
-            AlertErrorField.SUCCESS -> {
-                binding.tfEmail.isErrorEnabled = false
-                binding.tfPassword.isErrorEnabled = false
-            }
-            AlertErrorField.ERROR_EMAIL -> {
-                binding.tfPassword.isErrorEnabled = false
-                binding.tfEmail.error = "Email incorrecto"
-            }
-
-            AlertErrorField.ERROR_PASSWORD -> {
-                binding.tfEmail.isErrorEnabled = false
-                binding.tfPassword.error = "Contraseña Incorrecta"
-            }
-            else -> {
-                "error"
-            }
-        }
+    private fun clearFields(){
+        binding.etEmail.text?.clear()
+        binding.etPassword.text?.clear()
     }
 
     private fun checkFields() {
@@ -119,5 +124,62 @@ class HomeLoginFragment : Fragment() {
 
         }
         alertDialog.show()
+    }
+
+    private fun alertDialogUserNotRegister() {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("User Not Register")
+        alertDialog.setMessage("This account is not registered. ¿Would you like to register?")
+        alertDialog.setPositiveButton("Sign In") { _, _ ->
+            findNavController().navigate(R.id.createAccountFragment)
+        }
+
+        alertDialog.show()
+        clearFields()
+    }
+
+    private fun showSuccessLogin() {
+        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.homeFragment)
+        clearFields()
+    }
+
+    private fun showError401() {
+        alertDialogError()
+    }
+
+    private fun showUserNotRegister() {
+        alertDialogUserNotRegister()
+
+    }
+
+    private fun showUserError500() {
+        findNavController().navigate(R.id.homeLoginFragment)
+        clearFields()
+    }
+
+    private fun showError404() {
+        Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun alertCase(status: AlertErrorField) {
+        when (status) {
+            AlertErrorField.SUCCESS -> {
+                binding.tfEmail.isErrorEnabled = false
+                binding.tfPassword.isErrorEnabled = false
+            }
+            AlertErrorField.ERROR_EMAIL -> {
+                binding.tfPassword.isErrorEnabled = false
+                binding.tfEmail.error = "Email incorrecto"
+            }
+
+            AlertErrorField.ERROR_PASSWORD -> {
+                binding.tfEmail.isErrorEnabled = false
+                binding.tfPassword.error = "Contraseña Incorrecta"
+            }
+            else -> {
+                CODE_404
+            }
+        }
     }
 }

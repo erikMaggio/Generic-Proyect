@@ -9,6 +9,6 @@ object CodesError {
     const val AUTH_ERROR = "access no authorized"
     const val NOT_REGISTER = "user not register"
     const val SUCCESS_CREATE = "Create account"
-
+    const val SUCCESS_LOGIN = ""
 
 }
