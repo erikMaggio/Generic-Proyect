@@ -16,11 +16,9 @@ class LoginRepository {
         return loginDataSource.postSignUp(register)
     }
 
-    suspend fun test(): Response<testResponse> {
-        return loginDataSource.postTest()
-    }
 
-    suspend fun postRecoverPass(email:Recover): Response<RecoverResponse> {
+
+    suspend fun postRecoverPass(email:Recover): Result<RecoverResponse> {
         return loginDataSource.postRecoverPass(email)
     }
 }

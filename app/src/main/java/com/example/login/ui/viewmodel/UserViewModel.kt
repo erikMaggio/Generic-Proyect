@@ -22,7 +22,6 @@ class UserViewModel : ViewModel() {
 
     val data = MutableLiveData<UserViewModelEvent>()
     val liveEmailData = MutableLiveData<Boolean>()
-    val liveRecoverData = MutableLiveData<RecoverResponse>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
 
@@ -126,14 +125,34 @@ class UserViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val myUser = Recover(email)
             val call = loginRepository.postRecoverPass(myUser)
-            if (call.isSuccessful) {
-                liveRecoverData.postValue(call.body())
+            if (call.isSuccessful()) {
+
+                when (call.message) {
+                    SUCCESS_CREATE -> {
+                        data.postValue(UserViewModelEvent.UserSuccessful(call.message))
+                    }
+                    NOT_REGISTER -> {
+                        data.postValue(UserViewModelEvent.UserNotRegister(call.message))
+                    }
+                }
+            } else {
+                when (call.message) {
+                    CODE_500 -> {
+                        data.postValue(UserViewModelEvent.UserError500(call.message))
+                    }
+                    CODE_401 -> {
+                        data.postValue(UserViewModelEvent.RegisterError401(call.message))
+                    }
+                    CODE_404 -> {
+                        data.postValue(UserViewModelEvent.UserError404(call.message))
+                    }
+                }
             }
         }
     }
 
 
-    //verificaciones de campos
+    //verification de campos
     private fun verifyUser(user: String): Boolean {
         return if (user.matches("[a-zA-Z0-9]+".toRegex())
             && (user.length >= 3)
@@ -147,7 +166,7 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun verifyEmail(email: String): Boolean {
+    private fun verifyEmail(email: String): Boolean {
         return if (PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
             && email.length >= 3
             && email.isNotEmpty()

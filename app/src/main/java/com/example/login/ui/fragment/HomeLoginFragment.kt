@@ -101,7 +101,7 @@ class HomeLoginFragment : Fragment() {
         }
     }
 
-    private fun clearFields(){
+    private fun clearFields() {
         binding.etEmail.text?.clear()
         binding.etPassword.text?.clear()
     }
@@ -133,9 +133,7 @@ class HomeLoginFragment : Fragment() {
         alertDialog.setPositiveButton("Sign In") { _, _ ->
             findNavController().navigate(R.id.createAccountFragment)
         }
-
         alertDialog.show()
-        clearFields()
     }
 
     private fun showSuccessLogin() {
@@ -150,7 +148,7 @@ class HomeLoginFragment : Fragment() {
 
     private fun showUserNotRegister() {
         alertDialogUserNotRegister()
-
+        clearFields()
     }
 
     private fun showUserError500() {
@@ -159,7 +157,7 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun showError404() {
-        Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error en la application ", Toast.LENGTH_SHORT).show()
     }
 
     private fun alertCase(status: AlertErrorField) {
@@ -170,12 +168,12 @@ class HomeLoginFragment : Fragment() {
             }
             AlertErrorField.ERROR_EMAIL -> {
                 binding.tfPassword.isErrorEnabled = false
-                binding.tfEmail.error = "Email incorrecto"
+                binding.tfEmail.error = "Email incorrect"
             }
 
             AlertErrorField.ERROR_PASSWORD -> {
                 binding.tfEmail.isErrorEnabled = false
-                binding.tfPassword.error = "Contraseña Incorrecta"
+                binding.tfPassword.error = "Contrast Incorrect"
             }
             else -> {
                 CODE_404
