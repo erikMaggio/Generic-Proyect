@@ -16,6 +16,6 @@ sealed class UserViewModelEvent : ViewModel() {
     data class UserError404(val message: String) : UserViewModelEvent()
     data class RegisterError401(val message: String) : UserViewModelEvent()
     data class UserError500(val message: String) : UserViewModelEvent()
-
+    object ClearData:UserViewModelEvent()
     //object Error:UserViewModelEvent()  // cuando no se pide valor x ponstructor
 }

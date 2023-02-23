@@ -4,3 +4,7 @@ enum class AlertErrorField {
 
     SUCCESS,ERROR_EMAIL,ERROR_PASSWORD,ERROR_CONFIRM_PASS,ERROR_USER
 }
+
+enum class Type {
+    LEFT, CENTER, RIGHT
+}

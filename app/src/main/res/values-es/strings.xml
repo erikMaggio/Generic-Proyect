@@ -24,7 +24,18 @@
     <string name="login_tv_or">O</string>
     <string name="login_et_confirm_password">Confirmar contraseña</string>
     <string name="recover_tv_tittle">Ingrese su email para recuperar la contraseña</string>
-    <string name="recover_bt_recover">Recuperar contraseña</string>
+    <string name="reset_bt_recover">Restablecer la contraseña</string>
+    <string name="reset_tv_msg">Introduzca su dirección de correo electrónico. Recibirá un correo electrónico con instrucciones sobre cómo restablecer su contraseña</string>
+    <string name="item_disconnection">Sin conexión a Internet</string>
+    <string name="item_subtitle">Hubo un problema al obtener los datos, inténtalo de nuevo</string>
+    <string name="item_retry">Reintentar</string>
+    <string name="item_verify_tittle">"Cuenta verificada"</string>
+    <string name="item_verify_subtitle">Se ha enviado un correo electrónico de verificación para recuperar su contraseña</string>
+    <string name="item_success_tittle">Cuenta creada</string>
+    <string name="item_success_subtitle">"Se ha enviado un correo electrónico de verificación para habilitar su cuenta"</string>
+    <string name="item_error_login_subtitle">Esta cuenta no existe</string>
+    <string name="item_error_login_subtitle2">¿Quieres crear una cuenta?</string>
+    <string name="item_bt_cancel">Cancelar</string>
 
 
     <!-- String related with Create -->

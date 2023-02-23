@@ -17,6 +17,10 @@ import com.example.login.model.dataSource.LoginDataSource
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.utils.Action
+import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert.show
+import com.example.login.utils.Type
 
 
 class CreateAccountFragment : Fragment() {
@@ -34,13 +38,17 @@ class CreateAccountFragment : Fragment() {
         validationField()
         actions()
 
-
         return binding.root
     }
 
     private fun observer() {
         userViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
+
+                is UserViewModelEvent.ClearData -> {
+                    gone(binding.icModal)
+                    clearFields()
+                }
 
                 is UserViewModelEvent.UserAlreadyRegister -> {
                     showUserExisting()
@@ -56,8 +64,9 @@ class CreateAccountFragment : Fragment() {
                     showUserError500()
                 }
 
-                else -> {showError404()}
-
+                else -> {
+                    showError404()
+                }
             }
         }
 
@@ -102,29 +111,6 @@ class CreateAccountFragment : Fragment() {
         }
     }
 
-    private fun alertDialogError() {
-        val alertDialog = AlertDialog.Builder(context)
-        alertDialog.setTitle("Falla Del Sistema")
-        alertDialog.setMessage("Ha ocurrido un error obteniendo la información")
-        alertDialog.setPositiveButton("Reintentar") { _, _ ->
-            findNavController().navigate(R.id.createAccountFragment)
-        }
-        alertDialog.setNegativeButton("Cancelar") { _, _ ->
-
-        }
-        alertDialog.show()
-    }
-
-    private fun alertDialogSuccess() {
-        val alertDialog = AlertDialog.Builder(context)
-        alertDialog.setTitle("Cuenta Creada")
-        alertDialog.setMessage("Se ha enviado un correo de verificacion")
-        alertDialog.setPositiveButton("Continuar") { _, _ ->
-            findNavController().navigate(R.id.homeLoginFragment)
-        }
-        alertDialog.show()
-    }
-
     private fun checkFields() {
         userViewModel.checkStateCreate(
             binding.etUser.text.toString(),
@@ -135,11 +121,12 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun showSuccessRegister() {
-        alertDialogSuccess()
+        setModalAlert()
+        binding.icModal.root.visibility = View.VISIBLE
     }
 
     private fun showError401() {
-        alertDialogError()
+        Toast.makeText(context, "error auth", Toast.LENGTH_SHORT).show()
     }
 
     private fun showUserExisting() {
@@ -147,13 +134,32 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun showUserError500() {
-        findNavController().navigate(R.id.homeLoginFragment)
+        findNavController().popBackStack()
     }
 
     private fun showError404() {
         Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
     }
 
+    private fun setModalAlert() {
+        show(
+            R.drawable.success,
+            getString(R.string.item_success_tittle),
+            getString(R.string.item_success_subtitle),
+            listOf(
+                Action(
+                    Type.CENTER,
+                    R.drawable.border_radius_blue,
+                    getString(R.string.login_bt_continue),
+                    onClick = {
+                        userViewModel.clearData()
+                        findNavController().popBackStack()
+
+                    }
+                )
+            ), binding.icModal
+        )
+    }
 
     private fun alertCase(status: AlertErrorField) {
         when (status) {
@@ -192,5 +198,12 @@ class CreateAccountFragment : Fragment() {
                     "Contraseña incorrecta, el campo no cumple con los requisitos"
             }
         }
+    }
+
+    private fun clearFields() {
+        binding.etUser.text?.clear()
+        binding.etEmail.text?.clear()
+        binding.etPassword.text?.clear()
+        binding.etConfirmPassword.text?.clear()
     }
 }

@@ -14,8 +14,8 @@ import com.example.login.R
 import com.example.login.databinding.FragmentHelpBinding
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
-import com.example.login.utils.AlertErrorField
-import com.example.login.utils.CodesError
+import com.example.login.utils.*
+import com.example.login.utils.ModalAlert.gone
 
 class HelpFragment : Fragment() {
 
@@ -44,6 +44,11 @@ class HelpFragment : Fragment() {
 
         userViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
+
+                is UserViewModelEvent.ClearData ->{
+                    gone(binding.icModal)
+                    clearFields()
+                }
 
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessRecover()
@@ -77,6 +82,10 @@ class HelpFragment : Fragment() {
         binding.ivArrowPrevious.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.btLogin.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun validateField() {
@@ -85,17 +94,9 @@ class HelpFragment : Fragment() {
         }
     }
 
-    private fun alertDialogSuccess() {
-        val alertDialog = AlertDialog.Builder(context)
-        alertDialog.setMessage("Se ha enviado un correo de a su email")
-        alertDialog.setPositiveButton("Continuar") { _, _ ->
-            findNavController().navigate(R.id.homeLoginFragment)
-        }
-        alertDialog.show()
-    }
-
     private fun showSuccessRecover() {
-        alertDialogSuccess()
+        setModalAlert()
+        binding.icModal.root.visibility = View.VISIBLE
     }
 
     private fun showUserNotRegister() {
@@ -112,11 +113,29 @@ class HelpFragment : Fragment() {
         Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
     }
 
+    private fun setModalAlert() {
+        ModalAlert.show(
+            R.drawable.success,
+            getString(R.string.item_verify_tittle),
+            getString(R.string.item_verify_subtitle),
+            listOf(
+                Action(
+                    Type.CENTER,
+                    R.drawable.border_radius_blue,
+                    getString(R.string.login_bt_continue),
+                    onClick = {
+                        userViewModel.clearData()
+                        findNavController().popBackStack()
+
+                    }
+                )
+            ), binding.icModal
+        )
+    }
 
     private fun clearFields(){
         binding.etEmail.text?.clear()
     }
-
 
     private fun alertCase(status: AlertErrorField) {
         when (status) {

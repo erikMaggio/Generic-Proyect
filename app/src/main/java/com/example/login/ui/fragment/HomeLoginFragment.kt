@@ -1,10 +1,11 @@
 package com.example.login.ui.fragment
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -15,8 +16,11 @@ import com.example.login.databinding.FragmentHomeLoginBinding
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.utils.Action
 import com.example.login.utils.CodesError.CODE_404
-
+import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert.show
+import com.example.login.utils.Type
 
 class HomeLoginFragment : Fragment() {
 
@@ -40,6 +44,11 @@ class HomeLoginFragment : Fragment() {
 
         userViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
+
+                is UserViewModelEvent.ClearData -> {
+                    gone(binding.icModal)
+                    clearFields()
+                }
 
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessLogin()
@@ -113,29 +122,6 @@ class HomeLoginFragment : Fragment() {
         )
     }
 
-    private fun alertDialogError() {
-        val alertDialog = AlertDialog.Builder(context)
-        alertDialog.setTitle("Falla Del Sistema")
-        alertDialog.setMessage("Ha ocurrido un error obteniendo la información")
-        alertDialog.setPositiveButton("Reintentar") { _, _ ->
-            findNavController().navigate(R.id.homeLoginFragment)
-        }
-        alertDialog.setNegativeButton("Cancelar") { _, _ ->
-
-        }
-        alertDialog.show()
-    }
-
-    private fun alertDialogUserNotRegister() {
-        val alertDialog = AlertDialog.Builder(context)
-        alertDialog.setTitle("User Not Register")
-        alertDialog.setMessage("This account is not registered. ¿Would you like to register?")
-        alertDialog.setPositiveButton("Sign In") { _, _ ->
-            findNavController().navigate(R.id.createAccountFragment)
-        }
-        alertDialog.show()
-    }
-
     private fun showSuccessLogin() {
         Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
         findNavController().navigate(R.id.homeFragment)
@@ -143,12 +129,12 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun showError401() {
-        alertDialogError()
+        Toast.makeText(context, "error 401", Toast.LENGTH_SHORT).show()
     }
 
     private fun showUserNotRegister() {
-        alertDialogUserNotRegister()
-        clearFields()
+        setModalAlert()
+        binding.icModal.root.visibility = VISIBLE
     }
 
     private fun showUserError500() {
@@ -158,6 +144,31 @@ class HomeLoginFragment : Fragment() {
 
     private fun showError404() {
         Toast.makeText(context, "Error en la application ", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setModalAlert() {
+        show(
+            R.drawable.alert,
+            getString(R.string.item_error_login_subtitle),
+            getString(R.string.item_error_login_subtitle2),
+            listOf(
+                Action(
+                    Type.LEFT,
+                    R.drawable.border_radius_blue,
+                    getString(R.string.login_bt_continue),
+                    onClick = {
+                        userViewModel.clearData()
+                        findNavController().navigate(R.id.createAccountFragment)
+                    }
+                ),
+                Action(Type.RIGHT,
+                    R.drawable.border_radius_red,
+                    getString(R.string.item_bt_cancel),
+                    onClick = {
+                        gone(binding.icModal)
+                    })
+            ), binding.icModal
+        )
     }
 
     private fun alertCase(status: AlertErrorField) {
@@ -181,3 +192,4 @@ class HomeLoginFragment : Fragment() {
         }
     }
 }
+

@@ -23,7 +23,18 @@
     <string name="login_tv_or">OR</string>
     <string name="login_et_confirm_password">Confirm password</string>
     <string name="recover_tv_tittle">Enter Email to recover your password</string>
-    <string name="recover_bt_recover">Recover password</string>
+    <string name="reset_bt_recover">Reset your password</string>
+    <string name="reset_tv_msg">Enter your email address. You will receive an email with instructions on how to reset your password</string>
+    <string name="item_disconnection">No internet connection</string>
+    <string name="item_subtitle">There was a problem getting the data, please try again</string>
+    <string name="item_retry">Retry</string>
+    <string name="item_verify_tittle">"Verified account "</string>
+    <string name="item_verify_subtitle">A verification email has been sent to recover your password</string>
+    <string name="item_success_tittle">Account create</string>
+    <string name="item_success_subtitle">"A verification email has been sent to enable your account "</string>
+    <string name="item_error_login_subtitle">This account does not exist</string>
+    <string name="item_error_login_subtitle2">Do you want to create an account?</string>
+    <string name="item_bt_cancel">Cancel</string>
     <!-- String related with Create -->
 
 

@@ -201,4 +201,8 @@ class UserViewModel : ViewModel() {
             false
         }
     }
+
+    fun clearData() {
+        data.postValue(UserViewModelEvent.ClearData)
+    }
 }
