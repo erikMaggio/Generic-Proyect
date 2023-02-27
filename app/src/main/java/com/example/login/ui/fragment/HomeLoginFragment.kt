@@ -1,6 +1,5 @@
 package com.example.login.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +19,8 @@ import com.example.login.ui.viewmodel.UserViewModelEvent
 import com.example.login.utils.Action
 import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert.isInternetAvailable
+import com.example.login.utils.ModalAlert.noConnectionInternet
 import com.example.login.utils.ModalAlert.show
 import com.example.login.utils.Type
 
@@ -37,7 +38,6 @@ class HomeLoginFragment : Fragment() {
         action()
         observer()
         validationField()
-
         return binding.root
     }
 
@@ -93,21 +93,53 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun action() {
+
         binding.btCreate.setOnClickListener {
-            findNavController().navigate(R.id.createAccountFragment)
-            clearFields()
+
+            if (isInternetAvailable(requireContext())) {
+                findNavController().navigate(R.id.createAccountFragment)
+                clearFields()
+            } else {
+                noConnectionInternet(
+                    requireActivity(),
+                    onRestart = { onRestart() },
+                    binding.icModal
+                )
+                binding.icModal.root.visibility = VISIBLE
+            }
+
         }
 
         binding.btLogin.setOnClickListener {
-            userViewModel.postLogin(
-                binding.etEmail.text.toString(),
-                binding.etPassword.text.toString()
-            )
+
+            if (isInternetAvailable(requireContext())) {
+                userViewModel.postLogin(
+                    binding.etEmail.text.toString(),
+                    binding.etPassword.text.toString()
+                )
+            } else {
+                noConnectionInternet(
+                    requireActivity(),
+                    onRestart = { onRestart() },
+                    binding.icModal
+                )
+                binding.icModal.root.visibility = VISIBLE
+            }
         }
 
         binding.tvTextHelp.setOnClickListener {
             findNavController().navigate(R.id.helpFragment)
             clearFields()
+        }
+    }
+
+    private fun onRestart() {
+        if (isInternetAvailable(requireContext())) {
+            userViewModel.postLogin(
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
+            )
+            binding.icModal.root.visibility = GONE
         }
     }
 
@@ -171,6 +203,7 @@ class HomeLoginFragment : Fragment() {
             ), binding.icModal
         )
     }
+
 
     private fun alertCase(status: AlertErrorField) {
         when (status) {

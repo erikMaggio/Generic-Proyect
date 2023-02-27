@@ -1,8 +1,13 @@
 package com.example.login.utils
 
+import android.app.Activity
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.View
 import android.view.View.GONE
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.login.R
 import com.example.login.databinding.ItemModalBinding
 
@@ -14,7 +19,7 @@ object ModalAlert {
         tittle: String,
         msg: String,
         actions: List<Action>,
-        binding: ItemModalBinding
+        binding: ItemModalBinding,
     ) {
         binding.imageView.setImageResource(icon)
         binding.textView4.text = tittle
@@ -59,21 +64,33 @@ object ModalAlert {
         binding.root.visibility = GONE
     }
 
-    fun setModalInternetAlert(context: Context,) {
+    fun noConnectionInternet(activity: Activity,onRestart:()->Unit,binding: ItemModalBinding) {
         show(
             R.drawable.disconnect_internet,
-            context.getString(R.string.item_disconnection),
-            context.getString(R.string.item_subtitle),
+            activity.getString(R.string.item_disconnection),
+            activity.getString(R.string.item_subtitle),
             listOf(
                 Action(
                     Type.CENTER,
                     R.drawable.border_radius_blue,
-                    context.getString(R.string.item_retry),
+                    activity.getString(R.string.item_retry),
                     onClick = {
-
+                        onRestart()
                     }
                 )
-            )
+            ),binding
         )
+    }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            return networkInfo.isConnected
+        }
     }
 }
