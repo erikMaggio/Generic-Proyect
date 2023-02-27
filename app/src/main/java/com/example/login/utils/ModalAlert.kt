@@ -1,8 +1,11 @@
 package com.example.login.utils
 
+import android.content.Context
 import android.view.View
 import android.view.View.GONE
+import com.example.login.R
 import com.example.login.databinding.ItemModalBinding
+
 
 object ModalAlert {
 
@@ -51,7 +54,26 @@ object ModalAlert {
             }
         }
     }
-    fun gone(binding: ItemModalBinding){
-    binding.root.visibility = GONE
+
+    fun gone(binding: ItemModalBinding) {
+        binding.root.visibility = GONE
+    }
+
+    fun setModalInternetAlert(context: Context,) {
+        show(
+            R.drawable.disconnect_internet,
+            context.getString(R.string.item_disconnection),
+            context.getString(R.string.item_subtitle),
+            listOf(
+                Action(
+                    Type.CENTER,
+                    R.drawable.border_radius_blue,
+                    context.getString(R.string.item_retry),
+                    onClick = {
+
+                    }
+                )
+            )
+        )
     }
 }
