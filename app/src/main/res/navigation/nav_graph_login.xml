@@ -42,4 +42,9 @@
             android:id="@+id/action_createAccountFragment_to_homeLoginFragment"
             app:destination="@id/homeLoginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reAuthFragment"
+        android:name="com.example.login.ReAuthFragment"
+        android:label="fragment_re_auth"
+        tools:layout="@layout/fragment_re_auth" />
 </navigation>

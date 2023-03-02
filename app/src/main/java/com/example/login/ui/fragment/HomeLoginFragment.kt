@@ -204,7 +204,6 @@ class HomeLoginFragment : Fragment() {
         )
     }
 
-
     private fun alertCase(status: AlertErrorField) {
         when (status) {
             AlertErrorField.SUCCESS -> {
@@ -218,7 +217,7 @@ class HomeLoginFragment : Fragment() {
 
             AlertErrorField.ERROR_PASSWORD -> {
                 binding.tfEmail.isErrorEnabled = false
-                binding.tfPassword.error = "Contrast Incorrect"
+                binding.tfPassword.error = "password Incorrect"
             }
             else -> {
                 CODE_404

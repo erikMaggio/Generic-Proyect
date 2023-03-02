@@ -24,7 +24,7 @@
     <string name="login_et_confirm_password">Confirm password</string>
     <string name="recover_tv_tittle">Enter Email to recover your password</string>
     <string name="reset_bt_recover">Reset your password</string>
-    <string name="reset_tv_msg">Enter your email address. You will receive an email with instructions on how to reset your password</string>
+    <string name="reset_tv_msg">You will receive an email with instructions on how to reset your password</string>
     <string name="item_disconnection">No internet connection</string>
     <string name="item_subtitle">There was a problem getting the data, please try again</string>
     <string name="item_retry">Retry</string>
@@ -35,6 +35,8 @@
     <string name="item_error_login_subtitle">This account does not exist</string>
     <string name="item_error_login_subtitle2">Do you want to create an account?</string>
     <string name="item_bt_cancel">Cancel</string>
+    <string name="help_tv_recover">Recover password</string>
+    <string name="re_auth_tv_tittle">Use your fingerprint to verify your identity</string>
     <!-- String related with Create -->
 
 
