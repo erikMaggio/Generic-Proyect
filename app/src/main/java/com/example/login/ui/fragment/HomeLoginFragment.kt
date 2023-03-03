@@ -56,15 +56,15 @@ class HomeLoginFragment : Fragment() {
                 }
 
                 is UserViewModelEvent.UserNotRegister -> {
-                    showUserNotRegister()
+                    showUserNotRegister(it.message)
 
                 }
 
                 is UserViewModelEvent.RegisterError401 -> {
-                    showError401()
+                    showError401(it.message)
                 }
                 is UserViewModelEvent.UserError500 -> {
-                    showUserError500()
+                    showUserError500(it.message)
                 }
 
                 else -> {
@@ -161,47 +161,25 @@ class HomeLoginFragment : Fragment() {
         clearFields()
     }
 
-    private fun showError401() {
-        Toast.makeText(context, "error 401", Toast.LENGTH_SHORT).show()
+    private fun showError401(msg:String) {
+        visible(msg)
     }
 
-    private fun showUserNotRegister() {
-        setModalAlert()
-        binding.icModal.root.visibility = VISIBLE
+    private fun showUserNotRegister(msg:String) {
+        visible(msg)
     }
 
-    private fun showUserError500() {
-        findNavController().navigate(R.id.homeLoginFragment)
-        clearFields()
+    private fun showUserError500(msg:String) {
+        visible(msg)
     }
 
     private fun showError404() {
         Toast.makeText(context, "Error en la application ", Toast.LENGTH_SHORT).show()
     }
 
-    private fun setModalAlert() {
-        show(
-            R.drawable.alert,
-            getString(R.string.item_error_login_subtitle),
-            getString(R.string.item_error_login_subtitle2),
-            listOf(
-                Action(
-                    Type.LEFT,
-                    R.drawable.border_radius_blue,
-                    getString(R.string.login_bt_continue),
-                    onClick = {
-                        userViewModel.clearData()
-                        findNavController().navigate(R.id.createAccountFragment)
-                    }
-                ),
-                Action(Type.RIGHT,
-                    R.drawable.border_radius_red,
-                    getString(R.string.item_bt_cancel),
-                    onClick = {
-                        gone(binding.icModal)
-                    })
-            ), binding.icModal
-        )
+    private fun visible(msg:String){
+        binding.tvErrorAlert.text = msg
+        binding.tvErrorAlert.visibility = VISIBLE
     }
 
     private fun alertCase(status: AlertErrorField) {

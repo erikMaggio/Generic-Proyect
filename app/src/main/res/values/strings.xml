@@ -37,6 +37,7 @@
     <string name="item_bt_cancel">Cancel</string>
     <string name="help_tv_recover">Recover password</string>
     <string name="re_auth_tv_tittle">Use your fingerprint to verify your identity</string>
+    <string name="login_tv_error_alert">message error</string>
     <!-- String related with Create -->
 
 

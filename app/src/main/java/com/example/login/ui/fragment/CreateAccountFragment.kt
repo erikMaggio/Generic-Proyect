@@ -50,15 +50,16 @@ class CreateAccountFragment : Fragment() {
                     clearFields()
                 }
 
-                is UserViewModelEvent.UserAlreadyRegister -> {
-                    showUserExisting()
-                }
-
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessRegister()
                 }
+
+                is UserViewModelEvent.UserAlreadyRegister -> {
+                    showUserExisting(it.message)
+                }
+
                 is UserViewModelEvent.RegisterError401 -> {
-                    showError401()
+                    showError401(it.message)
                 }
                 is UserViewModelEvent.UserError500 -> {
                     showUserError500()
@@ -125,12 +126,12 @@ class CreateAccountFragment : Fragment() {
         binding.icModal.root.visibility = View.VISIBLE
     }
 
-    private fun showError401() {
-        Toast.makeText(context, "error auth", Toast.LENGTH_SHORT).show()
+    private fun showError401(msg: String) {
+        visible(msg)
     }
 
-    private fun showUserExisting() {
-        Toast.makeText(context, "Usuario ya Registrado", Toast.LENGTH_SHORT).show()
+    private fun showUserExisting(msg: String) {
+        visible(msg)
     }
 
     private fun showUserError500() {
@@ -139,6 +140,11 @@ class CreateAccountFragment : Fragment() {
 
     private fun showError404() {
         Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun visible(msg: String) {
+        binding.tvErrorAlert.text = msg
+        binding.tvErrorAlert.visibility = View.VISIBLE
     }
 
     private fun setModalAlert() {

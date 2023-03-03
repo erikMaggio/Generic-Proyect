@@ -55,7 +55,7 @@ class HelpFragment : Fragment() {
                 }
 
                 is UserViewModelEvent.UserNotRegister -> {
-                    showUserNotRegister()
+                    showUserNotRegister(it.message)
                 }
 
                 is UserViewModelEvent.UserError500 -> {
@@ -99,8 +99,8 @@ class HelpFragment : Fragment() {
         binding.icModal.root.visibility = View.VISIBLE
     }
 
-    private fun showUserNotRegister() {
-        Toast.makeText(context, "Usuario no registrado", Toast.LENGTH_SHORT).show()
+    private fun showUserNotRegister(msg:String) {
+        visible(msg)
         clearFields()
     }
 
@@ -111,6 +111,11 @@ class HelpFragment : Fragment() {
 
     private fun showError404() {
         Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun visible(msg: String) {
+        binding.tvErrorAlert.text = msg
+        binding.tvErrorAlert.visibility = View.VISIBLE
     }
 
     private fun setModalAlert() {

@@ -107,11 +107,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tf_password" />
 
     <TextView
+        android:id="@+id/tv_error_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:background="@color/red"
         android:padding="12dp"
+        android:visibility="gone"
         android:text="message error"
         android:textAlignment="center"
         android:textColor="@color/white"
