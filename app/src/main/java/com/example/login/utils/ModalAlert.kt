@@ -7,7 +7,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.View
 import android.view.View.GONE
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.login.R
 import com.example.login.databinding.ItemModalBinding
 

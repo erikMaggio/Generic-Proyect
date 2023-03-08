@@ -1,8 +1,7 @@
 package com.example.login.ui.fragment
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.login.R
 import com.example.login.databinding.CreateAccountFragmentBinding
-import com.example.login.model.dataSource.LoginDataSource
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
@@ -47,6 +45,7 @@ class CreateAccountFragment : Fragment() {
 
                 is UserViewModelEvent.ClearData -> {
                     gone(binding.icModal)
+                    binding.tvErrorAlert.visibility= View.GONE
                     clearFields()
                 }
 
@@ -139,12 +138,15 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun showError404() {
-        Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error en la aplicación ", Toast.LENGTH_SHORT).show()
     }
 
     private fun visible(msg: String) {
-        binding.tvErrorAlert.text = msg
         binding.tvErrorAlert.visibility = View.VISIBLE
+        binding.tvErrorAlert.text = msg
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = View.GONE
+        }, 3000)
     }
 
     private fun setModalAlert() {

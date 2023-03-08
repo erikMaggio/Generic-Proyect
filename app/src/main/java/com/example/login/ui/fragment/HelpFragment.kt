@@ -1,7 +1,7 @@
 package com.example.login.ui.fragment
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +47,7 @@ class HelpFragment : Fragment() {
 
                 is UserViewModelEvent.ClearData ->{
                     gone(binding.icModal)
+                    binding.tvErrorAlert.visibility= View.GONE
                     clearFields()
                 }
 
@@ -75,6 +76,8 @@ class HelpFragment : Fragment() {
     }
 
     private fun actions() {
+
+
         binding.btRecover.setOnClickListener {
             userViewModel.postRecoverPass(binding.etEmail.text.toString())
         }
@@ -114,8 +117,11 @@ class HelpFragment : Fragment() {
     }
 
     private fun visible(msg: String) {
-        binding.tvErrorAlert.text = msg
         binding.tvErrorAlert.visibility = View.VISIBLE
+        binding.tvErrorAlert.text = msg
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = View.GONE
+        }, 3000)
     }
 
     private fun setModalAlert() {

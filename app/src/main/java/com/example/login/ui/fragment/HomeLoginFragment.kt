@@ -1,6 +1,7 @@
 package com.example.login.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +17,10 @@ import com.example.login.databinding.FragmentHomeLoginBinding
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
-import com.example.login.utils.Action
 import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.ModalAlert.gone
 import com.example.login.utils.ModalAlert.isInternetAvailable
 import com.example.login.utils.ModalAlert.noConnectionInternet
-import com.example.login.utils.ModalAlert.show
-import com.example.login.utils.Type
-
 class HomeLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeLoginBinding
@@ -48,6 +45,7 @@ class HomeLoginFragment : Fragment() {
 
                 is UserViewModelEvent.ClearData -> {
                     gone(binding.icModal)
+                    binding.tvErrorAlert.visibility= GONE
                     clearFields()
                 }
 
@@ -68,7 +66,7 @@ class HomeLoginFragment : Fragment() {
                 }
 
                 else -> {
-                    showError404()
+                    showError404(it.toString())
                 }
 
             }
@@ -173,13 +171,16 @@ class HomeLoginFragment : Fragment() {
         visible(msg)
     }
 
-    private fun showError404() {
-        Toast.makeText(context, "Error en la application ", Toast.LENGTH_SHORT).show()
+    private fun showError404(msg: String) {
+        visible(msg)
     }
 
-    private fun visible(msg:String){
-        binding.tvErrorAlert.text = msg
+    private fun visible(msg: String) {
         binding.tvErrorAlert.visibility = VISIBLE
+        binding.tvErrorAlert.text = msg
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = GONE
+        }, 3000)
     }
 
     private fun alertCase(status: AlertErrorField) {
