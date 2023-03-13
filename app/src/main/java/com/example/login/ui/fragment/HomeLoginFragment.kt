@@ -18,9 +18,11 @@ import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
 import com.example.login.utils.CodesError.CODE_404
-import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert.goneModal
+import com.example.login.utils.ModalAlert.gonePb
 import com.example.login.utils.ModalAlert.isInternetAvailable
 import com.example.login.utils.ModalAlert.noConnectionInternet
+
 class HomeLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeLoginBinding
@@ -35,6 +37,7 @@ class HomeLoginFragment : Fragment() {
         action()
         observer()
         validationField()
+
         return binding.root
     }
 
@@ -44,8 +47,9 @@ class HomeLoginFragment : Fragment() {
             when (it) {
 
                 is UserViewModelEvent.ClearData -> {
-                    gone(binding.icModal)
-                    binding.tvErrorAlert.visibility= GONE
+                    binding.tvErrorAlert.visibility = GONE
+                    goneModal(binding.icModal)
+                    gonePb(binding.icPb)
                     clearFields()
                 }
 
@@ -93,10 +97,11 @@ class HomeLoginFragment : Fragment() {
     private fun action() {
 
         binding.btCreate.setOnClickListener {
-
             if (isInternetAvailable(requireContext())) {
                 findNavController().navigate(R.id.createAccountFragment)
                 clearFields()
+                binding.tvErrorAlert.visibility = GONE
+                visibleProgressbar()
             } else {
                 noConnectionInternet(
                     requireActivity(),
@@ -109,12 +114,14 @@ class HomeLoginFragment : Fragment() {
         }
 
         binding.btLogin.setOnClickListener {
-
             if (isInternetAvailable(requireContext())) {
                 userViewModel.postLogin(
                     binding.etEmail.text.toString(),
                     binding.etPassword.text.toString()
                 )
+                binding.tvErrorAlert.visibility = GONE
+                visibleProgressbar()
+
             } else {
                 noConnectionInternet(
                     requireActivity(),
@@ -126,8 +133,10 @@ class HomeLoginFragment : Fragment() {
         }
 
         binding.tvTextHelp.setOnClickListener {
+            binding.tvErrorAlert.visibility = GONE
             findNavController().navigate(R.id.helpFragment)
-            clearFields()
+            binding.etEmail.text?.clear()
+            binding.etPassword.text?.clear()
         }
     }
 
@@ -154,20 +163,20 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun showSuccessLogin() {
-        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()//quitar
         findNavController().navigate(R.id.homeFragment)
         clearFields()
     }
 
-    private fun showError401(msg:String) {
+    private fun showError401(msg: String) {
         visible(msg)
     }
 
-    private fun showUserNotRegister(msg:String) {
+    private fun showUserNotRegister(msg: String) {
         visible(msg)
     }
 
-    private fun showUserError500(msg:String) {
+    private fun showUserError500(msg: String) {
         visible(msg)
     }
 
@@ -181,6 +190,13 @@ class HomeLoginFragment : Fragment() {
         Handler().postDelayed({
             binding.tvErrorAlert.visibility = GONE
         }, 3000)
+    }
+
+    private fun visibleProgressbar() {
+        binding.icPb.root.visibility = VISIBLE
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = GONE
+        }, 1000)
     }
 
     private fun alertCase(status: AlertErrorField) {
@@ -204,4 +220,3 @@ class HomeLoginFragment : Fragment() {
         }
     }
 }
-

@@ -16,7 +16,8 @@ import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
 import com.example.login.utils.Action
-import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert
+import com.example.login.utils.ModalAlert.goneModal
 import com.example.login.utils.ModalAlert.show
 import com.example.login.utils.Type
 
@@ -32,20 +33,21 @@ class CreateAccountFragment : Fragment() {
     ): View {
         binding = CreateAccountFragmentBinding.inflate(inflater, container, false)
 
-        observer()
-        validationField()
+        observers()
+        validationFields()
         actions()
 
         return binding.root
     }
 
-    private fun observer() {
+    private fun observers() {
         userViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
 
                 is UserViewModelEvent.ClearData -> {
-                    gone(binding.icModal)
-                    binding.tvErrorAlert.visibility= View.GONE
+                    binding.tvErrorAlert.visibility = View.GONE
+                    goneModal(binding.icModal)
+                    ModalAlert.gonePb(binding.icPb)
                     clearFields()
                 }
 
@@ -79,7 +81,7 @@ class CreateAccountFragment : Fragment() {
         }
     }
 
-    private fun validationField() {
+    private fun validationFields() {
         binding.etUser.doAfterTextChanged {
             checkFields()
         }
@@ -97,9 +99,7 @@ class CreateAccountFragment : Fragment() {
     private fun actions() {
         binding.ivArrowPrevious.setOnClickListener {
             findNavController().popBackStack()
-            binding.etUser.text?.clear()
-            binding.etPassword.text?.clear()
-            binding.etEmail.text?.clear()
+            clearFields()
         }
 
         binding.btCreate.setOnClickListener {
@@ -108,6 +108,7 @@ class CreateAccountFragment : Fragment() {
                 binding.etEmail.text.toString(),
                 binding.etPassword.text.toString()
             )
+            visibleProgressbar()
         }
     }
 
@@ -121,16 +122,17 @@ class CreateAccountFragment : Fragment() {
     }
 
     private fun showSuccessRegister() {
+        binding.icPb.root.visibility = View.GONE
         setModalAlert()
         binding.icModal.root.visibility = View.VISIBLE
     }
 
     private fun showError401(msg: String) {
-        visible(msg)
+        visibleModal(msg)
     }
 
     private fun showUserExisting(msg: String) {
-        visible(msg)
+        visibleModal(msg)
     }
 
     private fun showUserError500() {
@@ -141,12 +143,19 @@ class CreateAccountFragment : Fragment() {
         Toast.makeText(context, "Error en la aplicación ", Toast.LENGTH_SHORT).show()
     }
 
-    private fun visible(msg: String) {
+    private fun visibleModal(msg: String) {
         binding.tvErrorAlert.visibility = View.VISIBLE
         binding.tvErrorAlert.text = msg
         Handler().postDelayed({
             binding.tvErrorAlert.visibility = View.GONE
         }, 3000)
+    }
+
+    private fun visibleProgressbar() {
+        binding.icPb.root.visibility = View.VISIBLE
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = View.GONE
+        }, 1000)
     }
 
     private fun setModalAlert() {
@@ -162,7 +171,6 @@ class CreateAccountFragment : Fragment() {
                     onClick = {
                         userViewModel.clearData()
                         findNavController().popBackStack()
-
                     }
                 )
             ), binding.icModal

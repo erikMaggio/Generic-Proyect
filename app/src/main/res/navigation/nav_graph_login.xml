@@ -44,7 +44,11 @@
     </fragment>
     <fragment
         android:id="@+id/reAuthFragment"
-        android:name="com.example.login.ReAuthFragment"
+        android:name="com.example.login.ui.fragment.ReAuthFragment"
         android:label="fragment_re_auth"
-        tools:layout="@layout/fragment_re_auth" />
+        tools:layout="@layout/fragment_re_auth" >
+        <action
+            android:id="@+id/action_reAuthFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+    </fragment>
 </navigation>

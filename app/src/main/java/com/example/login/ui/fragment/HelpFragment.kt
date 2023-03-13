@@ -5,6 +5,8 @@ import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -15,7 +17,8 @@ import com.example.login.databinding.FragmentHelpBinding
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
 import com.example.login.utils.*
-import com.example.login.utils.ModalAlert.gone
+import com.example.login.utils.ModalAlert.goneModal
+import com.example.login.utils.ModalAlert.gonePb
 
 class HelpFragment : Fragment() {
 
@@ -45,9 +48,10 @@ class HelpFragment : Fragment() {
         userViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
 
-                is UserViewModelEvent.ClearData ->{
-                    gone(binding.icModal)
-                    binding.tvErrorAlert.visibility= View.GONE
+                is UserViewModelEvent.ClearData -> {
+                    goneModal(binding.icModal)
+                    gonePb(binding.icPb)
+                    binding.tvErrorAlert.visibility = View.GONE
                     clearFields()
                 }
 
@@ -77,9 +81,10 @@ class HelpFragment : Fragment() {
 
     private fun actions() {
 
-
         binding.btRecover.setOnClickListener {
             userViewModel.postRecoverPass(binding.etEmail.text.toString())
+            visibleProgressbar()
+
         }
 
         binding.ivArrowPrevious.setOnClickListener {
@@ -98,11 +103,12 @@ class HelpFragment : Fragment() {
     }
 
     private fun showSuccessRecover() {
+        binding.icPb.root.visibility = GONE
         setModalAlert()
-        binding.icModal.root.visibility = View.VISIBLE
+        binding.icModal.root.visibility = VISIBLE
     }
 
-    private fun showUserNotRegister(msg:String) {
+    private fun showUserNotRegister(msg: String) {
         visible(msg)
         clearFields()
     }
@@ -117,11 +123,18 @@ class HelpFragment : Fragment() {
     }
 
     private fun visible(msg: String) {
-        binding.tvErrorAlert.visibility = View.VISIBLE
+        binding.tvErrorAlert.visibility = VISIBLE
         binding.tvErrorAlert.text = msg
         Handler().postDelayed({
-            binding.tvErrorAlert.visibility = View.GONE
+            binding.tvErrorAlert.visibility = GONE
         }, 3000)
+    }
+
+    private fun visibleProgressbar() {
+        binding.icPb.root.visibility = VISIBLE
+        Handler().postDelayed({
+            binding.tvErrorAlert.visibility = GONE
+        }, 1000)
     }
 
     private fun setModalAlert() {
@@ -137,6 +150,7 @@ class HelpFragment : Fragment() {
                     onClick = {
                         userViewModel.clearData()
                         findNavController().popBackStack()
+                        visibleProgressbar()
 
                     }
                 )
@@ -144,7 +158,7 @@ class HelpFragment : Fragment() {
         )
     }
 
-    private fun clearFields(){
+    private fun clearFields() {
         binding.etEmail.text?.clear()
     }
 

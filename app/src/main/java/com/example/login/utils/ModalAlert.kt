@@ -9,6 +9,7 @@ import android.view.View
 import android.view.View.GONE
 import com.example.login.R
 import com.example.login.databinding.ItemModalBinding
+import com.example.login.databinding.ItemProgressBarBinding
 
 
 object ModalAlert {
@@ -59,7 +60,11 @@ object ModalAlert {
         }
     }
 
-    fun gone(binding: ItemModalBinding) {
+    fun goneModal(binding: ItemModalBinding) {
+        binding.root.visibility = GONE
+    }
+
+    fun gonePb(binding: ItemProgressBarBinding) {
         binding.root.visibility = GONE
     }
 

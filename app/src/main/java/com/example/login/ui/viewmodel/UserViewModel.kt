@@ -11,6 +11,7 @@ import com.example.login.utils.CodesError.CODE_401
 import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.CodesError.CODE_500
 import com.example.login.utils.CodesError.NOT_REGISTER
+import com.example.login.utils.CodesError.RECOVER_PASS
 import com.example.login.utils.CodesError.SUCCESS_CREATE
 import com.example.login.utils.CodesError.SUCCESS_LOGIN
 import com.example.login.utils.CodesError.USER_REGISTER_ERROR
@@ -128,7 +129,7 @@ class UserViewModel : ViewModel() {
             if (call.isSuccessful()) {
 
                 when (call.message) {
-                    SUCCESS_CREATE -> {
+                    RECOVER_PASS -> {
                         data.postValue(UserViewModelEvent.UserSuccessful(call.message))
                     }
                     NOT_REGISTER -> {

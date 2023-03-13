@@ -10,5 +10,6 @@ object CodesError {
     const val NOT_REGISTER = "Usuario no registrado"
     const val SUCCESS_CREATE = "Create account"
     const val SUCCESS_LOGIN = ""
+    const val RECOVER_PASS = ""
 
 }

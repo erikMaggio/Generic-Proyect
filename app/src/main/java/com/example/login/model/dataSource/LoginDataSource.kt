@@ -7,6 +7,7 @@ import com.example.login.utils.CodesError.CODE_401
 import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.CodesError.CODE_500
 import com.example.login.utils.CodesError.NOT_REGISTER
+import com.example.login.utils.CodesError.RECOVER_PASS
 import com.example.login.utils.CodesError.SUCCESS_CREATE
 import com.example.login.utils.CodesError.SUCCESS_LOGIN
 import com.example.login.utils.CodesError.USER_REGISTER_ERROR
@@ -148,7 +149,7 @@ class LoginDataSource {
     private fun checkResponseRecover(message: String): Result<RecoverResponse> {
         return when (message) {
             "" -> {
-                Result.success(message = SUCCESS_CREATE)
+                Result.success(message = RECOVER_PASS)
             }
             "Usuario no registrado" -> {
                 Result.success(message = NOT_REGISTER)
