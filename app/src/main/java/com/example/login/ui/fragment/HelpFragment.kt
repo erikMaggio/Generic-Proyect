@@ -51,7 +51,7 @@ class HelpFragment : Fragment() {
                 is UserViewModelEvent.ClearData -> {
                     goneModal(binding.icModal)
                     gonePb(binding.icPb)
-                    binding.tvErrorAlert.visibility = View.GONE
+                    binding.tvErrorAlert.visibility = GONE
                     clearFields()
                 }
 
@@ -82,9 +82,9 @@ class HelpFragment : Fragment() {
     private fun actions() {
 
         binding.btRecover.setOnClickListener {
+            showLoadingView()
+            it.isEnabled = false
             userViewModel.postRecoverPass(binding.etEmail.text.toString())
-            visibleProgressbar()
-
         }
 
         binding.ivArrowPrevious.setOnClickListener {
@@ -108,12 +108,18 @@ class HelpFragment : Fragment() {
         binding.icModal.root.visibility = VISIBLE
     }
 
+    private fun showLoadingView() {
+        binding.icPb.root.visibility = VISIBLE
+    }
+
     private fun showUserNotRegister(msg: String) {
+        binding.icPb.root.visibility = GONE
         visible(msg)
         clearFields()
     }
 
     private fun showUserError500() {
+        binding.icPb.root.visibility = GONE
         findNavController().navigate(R.id.homeLoginFragment)
         clearFields()
     }
@@ -130,16 +136,9 @@ class HelpFragment : Fragment() {
         }, 3000)
     }
 
-    private fun visibleProgressbar() {
-        binding.icPb.root.visibility = VISIBLE
-        Handler().postDelayed({
-            binding.tvErrorAlert.visibility = GONE
-        }, 1000)
-    }
-
     private fun setModalAlert() {
         ModalAlert.show(
-            R.drawable.success,
+            R.drawable.verify,
             getString(R.string.item_verify_tittle),
             getString(R.string.item_verify_subtitle),
             listOf(
@@ -150,8 +149,6 @@ class HelpFragment : Fragment() {
                     onClick = {
                         userViewModel.clearData()
                         findNavController().popBackStack()
-                        visibleProgressbar()
-
                     }
                 )
             ), binding.icModal

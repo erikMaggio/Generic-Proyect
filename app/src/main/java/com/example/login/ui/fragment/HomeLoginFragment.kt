@@ -44,6 +44,7 @@ class HomeLoginFragment : Fragment() {
     private fun observer() {
 
         userViewModel.data.observe(viewLifecycleOwner) {
+
             when (it) {
 
                 is UserViewModelEvent.ClearData -> {
@@ -101,7 +102,6 @@ class HomeLoginFragment : Fragment() {
                 findNavController().navigate(R.id.createAccountFragment)
                 clearFields()
                 binding.tvErrorAlert.visibility = GONE
-                visibleProgressbar()
             } else {
                 noConnectionInternet(
                     requireActivity(),
@@ -115,12 +115,13 @@ class HomeLoginFragment : Fragment() {
 
         binding.btLogin.setOnClickListener {
             if (isInternetAvailable(requireContext())) {
+                showLoadingView()
+                it.isEnabled = false
                 userViewModel.postLogin(
                     binding.etEmail.text.toString(),
                     binding.etPassword.text.toString()
                 )
                 binding.tvErrorAlert.visibility = GONE
-                visibleProgressbar()
 
             } else {
                 noConnectionInternet(
@@ -163,24 +164,32 @@ class HomeLoginFragment : Fragment() {
     }
 
     private fun showSuccessLogin() {
-        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()//quitar
+        binding.icPb.root.visibility = GONE
         findNavController().navigate(R.id.homeFragment)
         clearFields()
     }
 
+    private fun showLoadingView() {
+        binding.icPb.root.visibility = VISIBLE
+    }
+
     private fun showError401(msg: String) {
+        binding.icPb.root.visibility = GONE
         visible(msg)
     }
 
     private fun showUserNotRegister(msg: String) {
+        binding.icPb.root.visibility = GONE
         visible(msg)
     }
 
     private fun showUserError500(msg: String) {
+        binding.icPb.root.visibility = GONE
         visible(msg)
     }
 
     private fun showError404(msg: String) {
+        binding.icPb.root.visibility = GONE
         visible(msg)
     }
 
@@ -190,13 +199,6 @@ class HomeLoginFragment : Fragment() {
         Handler().postDelayed({
             binding.tvErrorAlert.visibility = GONE
         }, 3000)
-    }
-
-    private fun visibleProgressbar() {
-        binding.icPb.root.visibility = VISIBLE
-        Handler().postDelayed({
-            binding.tvErrorAlert.visibility = GONE
-        }, 1000)
     }
 
     private fun alertCase(status: AlertErrorField) {

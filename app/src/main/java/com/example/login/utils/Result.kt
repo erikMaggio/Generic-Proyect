@@ -14,6 +14,7 @@ data class Result<out T>(val status: Status, val data: T?, val message: String) 
         fun <T> error(data: T? = null, message: String = ""): Result<T> {
             return Result(Status.ERROR, data, message)
         }
+
     }
 
     fun isSuccessful(): Boolean {

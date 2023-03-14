@@ -103,12 +103,13 @@ class CreateAccountFragment : Fragment() {
         }
 
         binding.btCreate.setOnClickListener {
+            showLoadingView()
+            it.isEnabled = false
             userViewModel.postSignUp(
                 binding.etUser.text.toString(),
                 binding.etEmail.text.toString(),
                 binding.etPassword.text.toString()
             )
-            visibleProgressbar()
         }
     }
 
@@ -127,19 +128,27 @@ class CreateAccountFragment : Fragment() {
         binding.icModal.root.visibility = View.VISIBLE
     }
 
+    private fun showLoadingView() {
+        binding.icPb.root.visibility = View.VISIBLE
+    }
+
     private fun showError401(msg: String) {
+        binding.icPb.root.visibility = View.GONE
         visibleModal(msg)
     }
 
     private fun showUserExisting(msg: String) {
+        binding.icPb.root.visibility = View.GONE
         visibleModal(msg)
     }
 
     private fun showUserError500() {
+        binding.icPb.root.visibility = View.GONE
         findNavController().popBackStack()
     }
 
     private fun showError404() {
+        binding.icPb.root.visibility = View.GONE
         Toast.makeText(context, "Error en la aplicación ", Toast.LENGTH_SHORT).show()
     }
 
@@ -149,13 +158,6 @@ class CreateAccountFragment : Fragment() {
         Handler().postDelayed({
             binding.tvErrorAlert.visibility = View.GONE
         }, 3000)
-    }
-
-    private fun visibleProgressbar() {
-        binding.icPb.root.visibility = View.VISIBLE
-        Handler().postDelayed({
-            binding.tvErrorAlert.visibility = View.GONE
-        }, 1000)
     }
 
     private fun setModalAlert() {
@@ -190,28 +192,28 @@ class CreateAccountFragment : Fragment() {
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfUser.error =
-                    "Usuario incorrecto, el campo no cumple con los requisitos"
+                    "Usuario incorrecto"
             }
             AlertErrorField.ERROR_EMAIL -> {
                 binding.tfUser.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfEmail.error =
-                    "Email incorrecto, el campo no cumple con los requisitos"
+                    "Email incorrecto"
             }
             AlertErrorField.ERROR_PASSWORD -> {
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfUser.isErrorEnabled = false
                 binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.error =
-                    "Contraseña incorrecta, el campo no cumple con los requisitos"
+                    "Contraseña incorrecta"
             }
             AlertErrorField.ERROR_CONFIRM_PASS -> {
                 binding.tfUser.isErrorEnabled = false
                 binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfPassword.error =
-                    "Contraseña incorrecta, el campo no cumple con los requisitos"
+                    "Contraseña incorrecta"
             }
         }
     }
