@@ -8,7 +8,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -56,6 +55,10 @@ class HomeLoginFragment : Fragment() {
 
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessLogin()
+                }
+
+                is UserViewModelEvent.UserAuthError -> {
+                    showAuthError(it.message)
                 }
 
                 is UserViewModelEvent.UserNotRegister -> {
@@ -178,9 +181,16 @@ class HomeLoginFragment : Fragment() {
         visible(msg)
     }
 
+    private fun showAuthError(msg:String) {
+        binding.icPb.root.visibility = GONE
+        binding.etPassword.text?.clear()
+        visible(msg)
+    }
+
     private fun showUserNotRegister(msg: String) {
         binding.icPb.root.visibility = GONE
         visible(msg)
+        clearFields()
     }
 
     private fun showUserError500(msg: String) {
@@ -209,12 +219,12 @@ class HomeLoginFragment : Fragment() {
             }
             AlertErrorField.ERROR_EMAIL -> {
                 binding.tfPassword.isErrorEnabled = false
-                binding.tfEmail.error = "Email incorrect"
+                binding.tfEmail.error = getString(R.string.field_email_error)
             }
 
             AlertErrorField.ERROR_PASSWORD -> {
                 binding.tfEmail.isErrorEnabled = false
-                binding.tfPassword.error = "password Incorrect"
+                binding.tfPassword.error = getString(R.string.field_pass_error)
             }
             else -> {
                 CODE_404

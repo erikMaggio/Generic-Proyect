@@ -149,7 +149,7 @@ class CreateAccountFragment : Fragment() {
 
     private fun showError404() {
         binding.icPb.root.visibility = View.GONE
-        Toast.makeText(context, "Error en la aplicación ", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.show_error_app, Toast.LENGTH_SHORT).show()
     }
 
     private fun visibleModal(msg: String) {
@@ -192,28 +192,29 @@ class CreateAccountFragment : Fragment() {
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfUser.error =
-                    "Usuario incorrecto"
+                    getString(R.string.field_user_error)
             }
             AlertErrorField.ERROR_EMAIL -> {
                 binding.tfUser.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfEmail.error =
-                    "Email incorrecto"
+                    getString(R.string.field_email_error)
+
             }
             AlertErrorField.ERROR_PASSWORD -> {
                 binding.tfConfirmPassword.isErrorEnabled = false
                 binding.tfUser.isErrorEnabled = false
                 binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.error =
-                    "Contraseña incorrecta"
+                    getString(R.string.field_pass_error)
             }
             AlertErrorField.ERROR_CONFIRM_PASS -> {
                 binding.tfUser.isErrorEnabled = false
                 binding.tfEmail.isErrorEnabled = false
                 binding.tfPassword.isErrorEnabled = false
                 binding.tfPassword.error =
-                    "Contraseña incorrecta"
+                    getString(R.string.field_pass_error)
             }
         }
     }

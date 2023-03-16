@@ -125,7 +125,7 @@ class HelpFragment : Fragment() {
     }
 
     private fun showError404() {
-        Toast.makeText(context, "Error en la aplicacion ", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.show_error_app, Toast.LENGTH_SHORT).show()
     }
 
     private fun visible(msg: String) {
@@ -165,7 +165,7 @@ class HelpFragment : Fragment() {
                 binding.tfEmail.isErrorEnabled = false
             }
             AlertErrorField.ERROR_EMAIL -> {
-                binding.tfEmail.error = "Email incorrecto"
+                binding.tfEmail.error = getString(R.string.field_email_error)
             }
 
             else -> {

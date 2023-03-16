@@ -11,5 +11,6 @@ object CodesError {
     const val SUCCESS_CREATE = "Create account"
     const val SUCCESS_LOGIN = ""
     const val RECOVER_PASS = ""
+    const val INCORRECT_PASS = ""
 
 }

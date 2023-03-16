@@ -38,6 +38,11 @@
     <string name="help_tv_recover">Recover password</string>
     <string name="re_auth_tv_tittle">Use your fingerprint to verify your identity</string>
     <string name="login_tv_error_alert">message error</string>
+    <string name="field_email_error">Email incorrect</string>
+    <string name="field_pass_error">Password incorrect</string>
+    <string name="field_user_error">User incorrect</string>
+    <string name="show_error_app">error in the application</string>
+
     <!-- String related with Create -->
 
 
