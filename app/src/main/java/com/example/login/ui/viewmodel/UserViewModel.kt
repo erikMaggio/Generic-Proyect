@@ -1,10 +1,12 @@
 package com.example.login.ui.viewmodel
 
+import android.app.Application
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.login.model.repository.LoginRepository
 import com.example.login.model.response.*
+import com.example.login.model.room.entity.UserEntity
 import com.example.login.utils.AlertErrorField
 import com.example.login.utils.CodesError.AUTH_ERROR
 import com.example.login.utils.CodesError.CODE_401
@@ -19,14 +21,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserViewModel : ViewModel() {
+class UserViewModel(application: Application) : ViewModel() {
 
     val data = MutableLiveData<UserViewModelEvent>()
     val liveEmailData = MutableLiveData<Boolean>()
     val liveCheckUserData = MutableLiveData<Boolean>()
     val liveAlertData = MutableLiveData<AlertErrorField>()
 
-    private val loginRepository = LoginRepository()
+    private val loginRepository = LoginRepository(application)
 
     //validation field login
     fun checkStateLogin(email: String, password: String) {
@@ -50,6 +52,13 @@ class UserViewModel : ViewModel() {
 
     fun checkEmailRecover(email: String) {
         liveEmailData.postValue(verifyEmail(email))
+    }
+
+    //room
+    fun saveTokenUser(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            loginRepository.saveTokenUser(token)
+        }
     }
 
     //api login

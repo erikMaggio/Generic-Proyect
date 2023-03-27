@@ -1,5 +1,6 @@
 package com.example.login.utils
 
+
 object CodesError {
     const val CODE_500 = "500"
     const val CODE_401 = "401"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.example.login.databinding.FragmentHomeLoginBinding
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.ui.viewmodel.UserViewModelFactory
 import com.example.login.utils.CodesError.CODE_404
 import com.example.login.utils.ModalAlert.goneModal
 import com.example.login.utils.ModalAlert.gonePb
@@ -25,7 +27,7 @@ import com.example.login.utils.ModalAlert.noConnectionInternet
 class HomeLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeLoginBinding
-    private val userViewModel by viewModels<UserViewModel>()
+    private lateinit var userViewModel:UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,7 @@ class HomeLoginFragment : Fragment() {
     ): View {
         binding = FragmentHomeLoginBinding.inflate(inflater, container, false)
 
+        getViewModel()
         action()
         observer()
         validationField()
@@ -55,6 +58,9 @@ class HomeLoginFragment : Fragment() {
 
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessLogin()
+                    userViewModel.saveTokenUser(it.message)
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+
                 }
 
                 is UserViewModelEvent.UserAuthError -> {
@@ -230,5 +236,10 @@ class HomeLoginFragment : Fragment() {
                 CODE_404
             }
         }
+    }
+
+    private fun getViewModel() {
+        userViewModel =
+            UserViewModelFactory(requireActivity().application).create(UserViewModel::class.java)
     }
 }
