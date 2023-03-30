@@ -175,9 +175,9 @@ class LoginDataSource(application: Application) {
         userDao.getAllUser()
     }
 
-    suspend fun saveTokenUser(token : String){
-        userDao.insertUser(UserEntity(token = token))
-    }
+//    suspend fun saveTokenUser(token : String){
+//        userDao.insertUser(UserEntity(token = token))
+//    }
 
 }
 

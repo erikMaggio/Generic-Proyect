@@ -21,7 +21,7 @@ class LoginRepository (application: Application){
         return loginDataSource.postRecoverPass(email)
     }
 
-    suspend fun saveTokenUser(token:String){
-        loginDataSource.saveTokenUser(token)
-    }
+//    suspend fun saveTokenUser(token:String){
+//        loginDataSource.saveTokenUser(token)
+//    }
 }

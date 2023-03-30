@@ -55,16 +55,16 @@ class UserViewModel(application: Application) : ViewModel() {
     }
 
     //room
-    fun saveTokenUser(token: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            loginRepository.saveTokenUser(token)
-        }
-    }
+//    fun saveTokenUser(token: String) {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            loginRepository.saveTokenUser(token)
+//        }
+//    }
 
     //api login
     fun postLogin(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val myUser = User(email, password)
+            val myUser = User(email, password,"telefonoandroidjesus","android")
             val call = loginRepository.postLogin(myUser)
             if (call.isSuccessful()) {
                 when (call.message) {

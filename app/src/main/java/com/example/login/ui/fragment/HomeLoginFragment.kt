@@ -58,8 +58,8 @@ class HomeLoginFragment : Fragment() {
 
                 is UserViewModelEvent.UserSuccessful -> {
                     showSuccessLogin()
-                    userViewModel.saveTokenUser(it.message)
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                 //   userViewModel.saveTokenUser(it.message)
+                   // Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
 
                 }
 

@@ -16,6 +16,7 @@ import com.example.login.R
 import com.example.login.databinding.FragmentHelpBinding
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.ui.viewmodel.UserViewModelFactory
 import com.example.login.utils.*
 import com.example.login.utils.ModalAlert.goneModal
 import com.example.login.utils.ModalAlert.gonePb
@@ -23,15 +24,16 @@ import com.example.login.utils.ModalAlert.gonePb
 class HelpFragment : Fragment() {
 
 
-    private val userViewModel by viewModels<UserViewModel>()
-
+    private lateinit var userViewModel:UserViewModel
     private lateinit var binding: FragmentHelpBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHelpBinding.inflate(inflater, container, false)
 
+        getViewModel()
         observer()
         actions()
         validateField()
@@ -172,5 +174,9 @@ class HelpFragment : Fragment() {
                 CodesError.CODE_404
             }
         }
+    }
+    private fun getViewModel() {
+        userViewModel =
+            UserViewModelFactory(requireActivity().application).create(UserViewModel::class.java)
     }
 }

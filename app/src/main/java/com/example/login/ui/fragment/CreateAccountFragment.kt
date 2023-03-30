@@ -15,6 +15,7 @@ import com.example.login.databinding.CreateAccountFragmentBinding
 import com.example.login.utils.AlertErrorField
 import com.example.login.ui.viewmodel.UserViewModel
 import com.example.login.ui.viewmodel.UserViewModelEvent
+import com.example.login.ui.viewmodel.UserViewModelFactory
 import com.example.login.utils.Action
 import com.example.login.utils.ModalAlert
 import com.example.login.utils.ModalAlert.goneModal
@@ -25,7 +26,7 @@ import com.example.login.utils.Type
 class CreateAccountFragment : Fragment() {
 
     private lateinit var binding: CreateAccountFragmentBinding
-    private val userViewModel by viewModels<UserViewModel>()
+    private lateinit var userViewModel:UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,7 @@ class CreateAccountFragment : Fragment() {
     ): View {
         binding = CreateAccountFragmentBinding.inflate(inflater, container, false)
 
+        getViewModel()
         observers()
         validationFields()
         actions()
@@ -224,5 +226,10 @@ class CreateAccountFragment : Fragment() {
         binding.etEmail.text?.clear()
         binding.etPassword.text?.clear()
         binding.etConfirmPassword.text?.clear()
+    }
+
+    private fun getViewModel() {
+        userViewModel =
+            UserViewModelFactory(requireActivity().application).create(UserViewModel::class.java)
     }
 }
